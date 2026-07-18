@@ -1,11 +1,531 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DataSec Labs - SQL Labs</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DataSec Labs SQL Security Labs — interactive, beginner-friendly investigations connecting SQL, anomaly detection, dashboards, and cybersecurity." />
+  <title>SQL Security Labs | DataSec Labs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --surface: rgba(255,255,255,.84);
+      --surface-strong: #fff;
+      --text: #2e3138;
+      --muted: #5f6670;
+      --teal: #2e8c8a;
+      --teal-dark: #1f6665;
+      --teal-soft: #d7f0ee;
+      --lavender: #8c74d9;
+      --lavender-soft: #cdbef6;
+      --sage: #84a89a;
+      --border: #e4e6ea;
+      --shadow: 0 24px 70px rgba(46,49,56,.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 16%, rgba(215,240,238,.85), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(205,190,246,.4), transparent 24%),
+        linear-gradient(180deg, #fffdfb 0%, var(--bg) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .5;
+      background-image:
+        linear-gradient(rgba(46,140,138,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,140,138,.05) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+
+    a { color: inherit; }
+    .page-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 18px;
+      border: 1px solid rgba(228,230,234,.92);
+      background: rgba(255,255,255,.76);
+      backdrop-filter: blur(16px);
+      border-radius: 999px;
+      box-shadow: 0 10px 40px rgba(46,49,56,.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--teal), var(--lavender));
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(46,140,138,.28);
+    }
+
+    .back-link {
+      text-decoration: none;
+      font-size: .94rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: color .18s ease, transform .18s ease;
+    }
+    .back-link:hover { color: var(--teal); transform: translateX(-2px); }
+
+    .hero {
+      margin-top: 28px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid rgba(228,230,234,.96);
+      background: linear-gradient(140deg, rgba(255,255,255,.96), rgba(250,248,245,.84));
+      box-shadow: var(--shadow);
+      padding: clamp(34px, 6vw, 76px);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+    }
+    .hero::before {
+      width: 360px;
+      height: 360px;
+      top: -150px;
+      right: -90px;
+      background: radial-gradient(circle, rgba(46,140,138,.28), transparent 68%);
+    }
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      bottom: -180px;
+      left: -110px;
+      background: radial-gradient(circle, rgba(140,116,217,.20), transparent 68%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr);
+      gap: clamp(34px, 6vw, 72px);
+      align-items: center;
+    }
+
+    .eyebrow-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .eyebrow, .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    .eyebrow { color: var(--teal-dark); background: var(--teal-soft); }
+    .status { color: #654cb4; background: rgba(205,190,246,.5); }
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lavender);
+      box-shadow: 0 0 0 0 rgba(140,116,217,.5);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 10px rgba(140,116,217,0); }
+      100% { box-shadow: 0 0 0 0 rgba(140,116,217,0); }
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(3.2rem, 8vw, 6.6rem);
+      line-height: .9;
+      letter-spacing: -.055em;
+    }
+    h1 span { display: block; color: var(--teal); }
+    .tagline {
+      margin: 20px 0 0;
+      font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--text);
+    }
+    .hero-copy {
+      margin: 18px 0 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .button-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      box-shadow: 0 12px 28px rgba(46,140,138,.28);
+    }
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--border);
+    }
+    .button:hover { transform: translateY(-2px); }
+
+    .query-panel {
+      background: #20262d;
+      color: #eef6f5;
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 24px 50px rgba(32,38,45,.22);
+      border: 1px solid rgba(255,255,255,.08);
+      transform: rotate(1.2deg);
+    }
+    .query-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      color: #b9c8c6;
+      font-size: .82rem;
+    }
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #75807f; }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 500 .92rem/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .sql-key { color: #cdbef6; }
+    .sql-field { color: #7ed0c9; }
+    .sql-string { color: #f2d59c; }
+    .result-strip {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .result {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .result strong { display: block; font-size: 1.1rem; color: #fff; }
+    .result span { font-size: .72rem; color: #a9b5b4; text-transform: uppercase; letter-spacing: .08em; }
+
+    .section { padding: 84px 0 0; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+    .kicker {
+      color: var(--teal);
+      font-size: .8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 8px;
+    }
+    h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+    .section-head p { margin: 0; max-width: 520px; color: var(--muted); line-height: 1.7; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .card {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid rgba(228,230,234,.95);
+      box-shadow: 0 14px 40px rgba(46,49,56,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(46,49,56,.12); }
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      right: -52px;
+      bottom: -52px;
+      background: radial-gradient(circle, rgba(46,140,138,.16), transparent 70%);
+    }
+    .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      background: var(--teal-soft);
+      margin-bottom: 22px;
+    }
+    .card:nth-child(2) .icon { background: rgba(205,190,246,.5); }
+    .card:nth-child(3) .icon { background: rgba(132,168,154,.2); }
+    .card:nth-child(4) .icon { background: rgba(242,213,156,.35); }
+    .card h3 { margin: 0 0 10px; font-size: 1.12rem; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.65; font-size: .95rem; }
+    .card .mini-label {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--teal-dark);
+      font-size: .74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .throughline {
+      margin-top: 84px;
+      padding: clamp(30px, 5vw, 56px);
+      border-radius: 30px;
+      background: linear-gradient(135deg, #1f6665, #2e8c8a 58%, #7762bd);
+      color: #fff;
+      box-shadow: 0 24px 60px rgba(46,140,138,.24);
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .throughline h2 { color: #fff; }
+    .throughline p { color: rgba(255,255,255,.82); line-height: 1.75; max-width: 650px; }
+    .path {
+      display: grid;
+      gap: 12px;
+    }
+    .path-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      font-weight: 700;
+    }
+    .path-step span:first-child { font-size: 1.2rem; }
+
+    footer {
+      padding: 34px 0 4px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    footer a { text-decoration: none; font-weight: 700; color: var(--teal-dark); }
+
+    @media (max-width: 930px) {
+      .hero-grid, .throughline { grid-template-columns: 1fr; }
+      .query-panel { transform: none; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 620px) {
+      .page-shell { width: min(100% - 20px, 1180px); padding-top: 14px; }
+      .topbar { border-radius: 20px; padding: 12px 14px; }
+      .brand span:last-child { display: none; }
+      .hero { border-radius: 24px; padding: 28px 22px; }
+      h1 { font-size: clamp(3rem, 18vw, 4.8rem); }
+      .cards { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+      .result-strip { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-    <h1>🗄️ SQL Security Labs</h1>
-    <p>Interactive SQL challenges coming soon!</p>
-    <p><a href="../index.html">← Back to Home</a></p>
+  <main class="page-shell">
+    <nav class="topbar" aria-label="Primary navigation">
+      <a class="brand" href="../" aria-label="DataSec Labs home">
+        <span class="brand-mark">DS</span>
+        <span>DataSec Labs</span>
+      </a>
+      <a class="back-link" href="../">← Back to Home</a>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Data to Cyber</span>
+            <span class="status"><span class="pulse" aria-hidden="true"></span> In Development</span>
+          </div>
+
+          <h1>SQL <span>Security Labs</span></h1>
+          <p class="tagline">Query. Investigate. Discover.</p>
+          <p class="hero-copy">
+            Interactive, beginner-friendly investigations that show how SQL can uncover suspicious activity, reveal anomalies, and turn raw security data into a clear story.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#coming">See what's coming ↓</a>
+            <a class="button button-secondary" href="../">Explore DataSec Labs</a>
+          </div>
+        </div>
+
+        <div class="query-panel" aria-label="SQL investigation preview">
+          <div class="query-top">
+            <div class="dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <span>investigation.sql</span>
+          </div>
+          <pre><span class="sql-key">SELECT</span>
+  <span class="sql-field">src_ip</span>,
+  <span class="sql-field">COUNT</span>(*) <span class="sql-key">AS</span> failed_attempts
+<span class="sql-key">FROM</span> auth_logs
+<span class="sql-key">WHERE</span> action = <span class="sql-string">'failed_login'</span>
+<span class="sql-key">GROUP BY</span> src_ip
+<span class="sql-key">HAVING</span> <span class="sql-field">COUNT</span>(*) &gt; 10
+<span class="sql-key">ORDER BY</span> failed_attempts <span class="sql-key">DESC</span>;</pre>
+          <div class="result-strip">
+            <div class="result"><strong>4</strong><span>IPs flagged</span></div>
+            <div class="result"><strong>37</strong><span>failed logins</span></div>
+            <div class="result"><strong>1</strong><span>priority lead</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="coming">
+      <div class="section-head">
+        <div>
+          <div class="kicker">What you'll explore</div>
+          <h2>From raw rows to security findings.</h2>
+        </div>
+        <p>Each lab will connect familiar data skills to practical cybersecurity questions, so you can learn the investigation process—not just memorize syntax.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon" aria-hidden="true">🗂️</div>
+          <h3>Query Security Logs</h3>
+          <p>Filter large datasets, narrow event windows, and search for indicators hidden inside noisy records.</p>
+          <span class="mini-label">SQL foundations</span>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">📊</div>
+          <h3>Detect Anomalies</h3>
+          <p>Compare normal and unusual behavior, identify spikes, and use grouped results to surface patterns worth investigating.</p>
+          <span class="mini-label">Pattern recognition</span>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">🔎</div>
+          <h3>Investigate Events</h3>
+          <p>Follow SOC-style questions, connect related records, and trace suspicious activity through a structured workflow.</p>
+          <span class="mini-label">Analyst thinking</span>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">📈</div>
+          <h3>Build the Story</h3>
+          <p>Turn query results into clear findings, useful visuals, and concise explanations that stakeholders can understand.</p>
+          <span class="mini-label">Dashboards & reporting</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="throughline">
+      <div>
+        <div class="kicker" style="color:#d7f0ee;">The DataSec throughline</div>
+        <h2>Your data skills already belong in security.</h2>
+        <p>
+          These labs are inspired by real DataSec Chronicles projects, including Zeek log analysis, anomaly detection, SQL investigations, and threat-hunting workflows. The goal is to make the bridge from data analytics to cybersecurity visible—and practical.
+        </p>
+      </div>
+      <div class="path" aria-label="Data to cybersecurity learning path">
+        <div class="path-step"><span>🗄️</span><span>Query the data</span></div>
+        <div class="path-step"><span>📊</span><span>Spot the anomaly</span></div>
+        <div class="path-step"><span>🔎</span><span>Investigate the activity</span></div>
+        <div class="path-step"><span>🛡️</span><span>Communicate the finding</span></div>
+      </div>
+    </section>
+
+    <footer>
+      <span>DataSec Labs · Interactive learning for curious career changers.</span>
+      <a href="../">← Return to DataSec Labs</a>
+    </footer>
+  </main>
 </body>
 </html>
