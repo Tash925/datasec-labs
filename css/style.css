@@ -735,12 +735,6 @@ footer {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 650ms ease, transform 650ms ease;
-}
-
-.reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
