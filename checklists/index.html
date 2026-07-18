@@ -1,11 +1,595 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DataSec Labs - Checklists</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Career Builder by DataSec Labs — an interactive career planning experience with roadmaps, checklists, portfolio ideas, reflection tools, and practical next steps for cybersecurity career changers." />
+  <title>Career Builder | DataSec Labs</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --card: #F1F2F4;
+      --heading: #2E3138;
+      --body: #4A4F58;
+      --lavender: #8C74D9;
+      --lavender-soft: #CDBEF6;
+      --teal: #2E8C8A;
+      --teal-soft: #D7F0EE;
+      --border: #E4E6EA;
+      --white: #FFFFFF;
+      --shadow: 0 20px 50px rgba(46, 49, 56, 0.09);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: var(--body);
+      background:
+        radial-gradient(circle at 10% 5%, rgba(205, 190, 246, 0.45), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(215, 240, 238, 0.7), transparent 32%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--heading);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--lavender), var(--teal));
+      color: white;
+      box-shadow: 0 10px 24px rgba(140, 116, 217, 0.28);
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--teal);
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: var(--teal-soft);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 78px 64px;
+      margin-top: 12px;
+      border: 1px solid rgba(228, 230, 234, 0.95);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(4px);
+    }
+
+    .hero::before {
+      width: 310px;
+      height: 310px;
+      right: -110px;
+      top: -110px;
+      background: rgba(205, 190, 246, 0.52);
+    }
+
+    .hero::after {
+      width: 260px;
+      height: 260px;
+      left: -90px;
+      bottom: -125px;
+      background: rgba(215, 240, 238, 0.85);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 6px rgba(46, 140, 138, 0.12);
+      animation: pulse 1.9s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.72); opacity: 0.65; }
+    }
+
+    h1, h2, h3 {
+      color: var(--heading);
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(3.4rem, 8vw, 6.9rem);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-lead {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--heading);
+      color: white;
+      box-shadow: 0 12px 26px rgba(46, 49, 56, 0.18);
+    }
+
+    .button-secondary {
+      color: var(--heading);
+      border-color: var(--border);
+      background: rgba(255,255,255,0.7);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .section {
+      padding: 86px 0 0;
+    }
+
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.4rem, 5vw, 4.1rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      position: relative;
+      min-height: 270px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 14px 30px rgba(46, 49, 56, 0.06);
+      transition: 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 22px 44px rgba(46, 49, 56, 0.1);
+    }
+
+    .tool-card:nth-child(2),
+    .tool-card:nth-child(5) {
+      background: linear-gradient(150deg, rgba(215, 240, 238, 0.95), rgba(255,255,255,0.9));
+    }
+
+    .tool-card:nth-child(3),
+    .tool-card:nth-child(6) {
+      background: linear-gradient(150deg, rgba(237, 232, 252, 0.95), rgba(255,255,255,0.9));
+    }
+
+    .icon-box {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      background: var(--heading);
+      color: white;
+      font-size: 1.45rem;
+    }
+
+    .tool-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .tool-card p {
+      margin: 0 0 18px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.94rem;
+    }
+
+    .mini-list li::before {
+      content: "✓";
+      margin-right: 9px;
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .divider-card {
+      margin-top: 24px;
+      padding: 38px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--heading), #414753);
+      color: rgba(255,255,255,0.8);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .divider-card::after {
+      content: "→";
+      position: absolute;
+      right: 30px;
+      bottom: -28px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 10rem;
+      color: rgba(255,255,255,0.06);
+      transform: rotate(-8deg);
+    }
+
+    .divider-card h2 {
+      color: white;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      margin-bottom: 12px;
+    }
+
+    .divider-card p {
+      max-width: 760px;
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .ecosystem {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .ecosystem-card {
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.78);
+    }
+
+    .ecosystem-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--heading);
+      font-size: 1.08rem;
+    }
+
+    footer {
+      padding: 70px 0 36px;
+      text-align: center;
+      color: #70757f;
+    }
+
+    footer a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 780px) {
+      .site-header {
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding: 58px 26px;
+      }
+
+      .tool-grid,
+      .ecosystem {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding-top: 68px;
+      }
+
+      .divider-card {
+        padding: 30px 24px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page-shell {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .brand span:last-child {
+        display: none;
+      }
+
+      .back-link {
+        font-size: 0.92rem;
+      }
+
+      h1 {
+        font-size: 3.35rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>✅ Security Checklists</h1>
-    <p>Interactive checklists coming soon!</p>
-    <p><a href="../index.html">← Back to Home</a></p>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">🧪</span>
+        <span>DataSec Labs</span>
+      </a>
+      <a class="back-link" href="/">← Back to Home</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">
+          <span class="status-dot" aria-hidden="true"></span>
+          Interactive Guide in Development
+        </div>
+
+        <h1>Career Builder</h1>
+
+        <p class="hero-lead">
+          An interactive career-planning space built from real lessons learned while moving
+          from data analytics toward cybersecurity.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#experience">Preview the experience</a>
+          <a class="button button-secondary" href="/">Return to DataSec Labs</a>
+        </div>
+      </section>
+
+      <section class="section" id="experience">
+        <div class="section-heading">
+          <h2>Build your path—one practical step at a time.</h2>
+          <p>
+            Career Builder is being designed to help you connect what you already know, identify
+            realistic next steps, and build a career plan that feels personal—not generic.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">🧭</div>
+            <h3>Career Path Explorer</h3>
+            <p>Compare cybersecurity directions through the lens of your current strengths, interests, and experience.</p>
+            <ul class="mini-list">
+              <li>Transferable-skill prompts</li>
+              <li>Role-path comparisons</li>
+              <li>Possible next moves</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">🔎</div>
+            <h3>Skills Translation</h3>
+            <p>See how experience from analytics, operations, customer service, healthcare, and other fields can connect to security work.</p>
+            <ul class="mini-list">
+              <li>Existing strengths</li>
+              <li>Cyber-adjacent experience</li>
+              <li>Skill-gap reflections</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">✅</div>
+            <h3>Interactive Action Plan</h3>
+            <p>Turn a broad career goal into a focused sequence of manageable learning and portfolio steps.</p>
+            <ul class="mini-list">
+              <li>Weekly milestones</li>
+              <li>Progress check-ins</li>
+              <li>Realistic priorities</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">💼</div>
+            <h3>Portfolio Builder</h3>
+            <p>Develop project ideas that demonstrate how you investigate, analyze, document, and communicate.</p>
+            <ul class="mini-list">
+              <li>Project prompts</li>
+              <li>Write-up structure</li>
+              <li>Evidence of transferable skills</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">📝</div>
+            <h3>Reflection Checkpoints</h3>
+            <p>Use short prompts and knowledge checks to make sure your plan still fits your goals and life.</p>
+            <ul class="mini-list">
+              <li>What is working</li>
+              <li>What needs adjustment</li>
+              <li>What to learn next</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <div class="icon-box" aria-hidden="true">🎲</div>
+            <h3>Career Roadmap Bingo</h3>
+            <p>Start with the live Career Roadmap Bingo experience while the full Career Builder is being developed.</p>
+            <ul class="mini-list">
+              <li>Beginner-friendly actions</li>
+              <li>Visible progress</li>
+              <li>One square at a time</li>
+            </ul>
+            <a class="button button-secondary" href="../bingo/" style="margin-top:18px;">Launch Bingo</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>A career plan should start with your story.</h2>
+          <p>
+            Career Builder will not assume everyone begins in the same place. The experience is being
+            shaped by lessons from a real transition—from meteorology to data analytics and now toward cybersecurity.
+          </p>
+        </div>
+
+        <div class="divider-card">
+          <h2>Practice here. Go deeper on DataSec Chronicles.</h2>
+          <p>
+            DataSec Labs will contain the interactive planners, checklists, quizzes, and guided activities.
+            DataSec Chronicles will contain the detailed career stories, tutorials, companion guides,
+            downloadable resources, and community reflections behind them.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://www.datasecchronicles.com/">Read DataSec Chronicles</a>
+            <a class="button button-secondary" href="https://www.datasecchronicles.com/share-the-journey">Share Your Journey</a>
+          </div>
+        </div>
+
+        <div class="ecosystem">
+          <div class="ecosystem-card">
+            <strong>Inside Career Builder</strong>
+            Path exploration, skills translation, action plans, portfolio prompts, quizzes, and reflection tools.
+          </div>
+
+          <div class="ecosystem-card">
+            <strong>On DataSec Chronicles</strong>
+            In-depth articles, personal lessons, complete tutorials, companion guides, printables, and community stories.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Part of the <strong>DataSec Chronicles</strong> learning ecosystem.<br>
+        <a href="/">← Return to DataSec Labs</a> &nbsp;·&nbsp;
+        <a href="https://www.datasecchronicles.com/share-the-journey">Share the Journey</a>
+      </p>
+    </footer>
+  </div>
 </body>
 </html>
