@@ -3,40 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="DataSec Labs SQL Security Labs — interactive, beginner-friendly investigations connecting SQL, anomaly detection, dashboards, and cybersecurity." />
-  <title>SQL Security Labs | DataSec Labs</title>
+  <meta name="description" content="Practice security-focused SQL, anomaly detection, dashboard analysis, and investigations with interactive guides, labs, quizzes, and study tools from DataSec Labs." />
+  <title>MITRE ATT&CK Explorer | DataSec Labs</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #faf8f5;
       --surface: rgba(255,255,255,.84);
-      --surface-strong: #fff;
+      --surface-strong: #ffffff;
       --text: #2e3138;
       --muted: #5f6670;
       --teal: #2e8c8a;
-      --teal-dark: #1f6665;
+      --teal-dark: #236f6d;
       --teal-soft: #d7f0ee;
       --lavender: #8c74d9;
       --lavender-soft: #cdbef6;
-      --sage: #84a89a;
       --border: #e4e6ea;
-      --shadow: 0 24px 70px rgba(46,49,56,.12);
+      --shadow: 0 24px 70px rgba(46,49,56,.11);
+      --radius-lg: 32px;
+      --radius-md: 22px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       min-height: 100vh;
       font-family: "DM Sans", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 12% 16%, rgba(215,240,238,.85), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(205,190,246,.4), transparent 24%),
+        radial-gradient(circle at 14% 14%, rgba(205,190,246,.42), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(215,240,238,.72), transparent 28%),
         linear-gradient(180deg, #fffdfb 0%, var(--bg) 100%);
-      overflow-x: hidden;
     }
 
     body::before {
@@ -44,15 +47,16 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: .5;
+      opacity: .35;
       background-image:
-        linear-gradient(rgba(46,140,138,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(46,140,138,.05) 1px, transparent 1px);
-      background-size: 42px 42px;
+        linear-gradient(rgba(46,140,138,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(140,116,217,.05) 1px, transparent 1px);
+      background-size: 44px 44px;
       mask-image: linear-gradient(to bottom, black, transparent 72%);
     }
 
     a { color: inherit; }
+
     .page-shell {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
@@ -67,11 +71,11 @@
       justify-content: space-between;
       gap: 20px;
       padding: 14px 18px;
-      border: 1px solid rgba(228,230,234,.92);
+      border: 1px solid rgba(228,230,234,.95);
       background: rgba(255,255,255,.76);
       backdrop-filter: blur(16px);
       border-radius: 999px;
-      box-shadow: 0 10px 40px rgba(46,49,56,.08);
+      box-shadow: 0 10px 40px rgba(46,49,56,.07);
     }
 
     .brand {
@@ -80,452 +84,739 @@
       gap: 12px;
       text-decoration: none;
       font-weight: 700;
-      letter-spacing: .02em;
     }
 
     .brand-mark {
       width: 38px;
       height: 38px;
-      border-radius: 12px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, var(--teal), var(--lavender));
+      border-radius: 12px;
       color: #fff;
-      box-shadow: 0 8px 24px rgba(46,140,138,.28);
+      background: linear-gradient(135deg, var(--teal), var(--lavender));
     }
 
     .back-link {
       text-decoration: none;
-      font-size: .94rem;
-      font-weight: 600;
       color: var(--muted);
-      transition: color .18s ease, transform .18s ease;
+      font-size: .94rem;
+      font-weight: 700;
     }
-    .back-link:hover { color: var(--teal); transform: translateX(-2px); }
+
+    .back-link:hover { color: var(--teal); }
+
+    .hero,
+    .section {
+      margin-top: 30px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.76);
+      backdrop-filter: blur(15px);
+      box-shadow: var(--shadow);
+    }
 
     .hero {
-      margin-top: 28px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 34px;
-      border: 1px solid rgba(228,230,234,.96);
-      background: linear-gradient(140deg, rgba(255,255,255,.96), rgba(250,248,245,.84));
-      box-shadow: var(--shadow);
       padding: clamp(34px, 6vw, 76px);
-      isolation: isolate;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      z-index: -1;
-    }
-    .hero::before {
-      width: 360px;
-      height: 360px;
-      top: -150px;
-      right: -90px;
-      background: radial-gradient(circle, rgba(46,140,138,.28), transparent 68%);
-    }
-    .hero::after {
-      width: 320px;
-      height: 320px;
-      bottom: -180px;
-      left: -110px;
-      background: radial-gradient(circle, rgba(140,116,217,.20), transparent 68%);
+      border-radius: 34px;
+      overflow: hidden;
+      position: relative;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr);
-      gap: clamp(34px, 6vw, 72px);
+      grid-template-columns: minmax(0,1.08fr) minmax(300px,.92fr);
+      gap: clamp(36px,6vw,72px);
       align-items: center;
     }
 
-    .eyebrow-row {
+    .badge-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
-    .eyebrow, .status {
+
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border-radius: 999px;
       padding: 9px 13px;
-      font-size: .78rem;
+      border-radius: 999px;
+      font-size: .77rem;
       font-weight: 700;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      letter-spacing: .1em;
     }
-    .eyebrow { color: var(--teal-dark); background: var(--teal-soft); }
-    .status { color: #654cb4; background: rgba(205,190,246,.5); }
-    .pulse {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--lavender);
-      box-shadow: 0 0 0 0 rgba(140,116,217,.5);
-      animation: pulse 2s infinite;
+
+    .badge-primary {
+      color: var(--teal-dark);
+      background: var(--teal-soft);
     }
-    @keyframes pulse {
-      70% { box-shadow: 0 0 0 10px rgba(140,116,217,0); }
-      100% { box-shadow: 0 0 0 0 rgba(140,116,217,0); }
+
+    .badge-secondary {
+      color: #654cb4;
+      background: rgba(205,190,246,.48);
+    }
+
+    h1, h2 {
+      font-family: "Cormorant Garamond", serif;
+      line-height: .98;
+      letter-spacing: -.035em;
     }
 
     h1 {
       margin: 0;
-      max-width: 760px;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(3.2rem, 8vw, 6.6rem);
-      line-height: .9;
-      letter-spacing: -.055em;
+      font-size: clamp(3.2rem,8vw,6.6rem);
     }
-    h1 span { display: block; color: var(--teal); }
-    .tagline {
-      margin: 20px 0 0;
-      font-size: clamp(1.25rem, 2.5vw, 1.8rem);
-      font-weight: 700;
-      letter-spacing: -.02em;
-      color: var(--text);
+
+    h1 span {
+      display: block;
+      color: var(--teal);
     }
-    .hero-copy {
-      margin: 18px 0 0;
-      max-width: 680px;
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2.2rem,5vw,3.9rem);
+    }
+
+    h3 { margin: 0 0 9px; }
+
+    .hero-copy,
+    .section-heading p,
+    .card p,
+    .path-step p,
+    .resource-card p,
+    .journey-card p {
       color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      line-height: 1.75;
+      line-height: 1.7;
     }
-    .hero-actions {
+
+    .hero-copy {
+      margin: 24px 0 0;
+      max-width: 680px;
+      font-size: clamp(1rem,2vw,1.18rem);
+    }
+
+    .microcopy {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: .91rem;
+    }
+
+    .hero-actions,
+    .card-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 28px;
     }
+
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 48px;
+      min-height: 49px;
       padding: 0 20px;
       border-radius: 14px;
       text-decoration: none;
       font-weight: 700;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
-    .button-primary {
-      color: #fff;
-      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-      box-shadow: 0 12px 28px rgba(46,140,138,.28);
-    }
-    .button-secondary {
-      color: var(--text);
-      background: rgba(255,255,255,.84);
-      border: 1px solid var(--border);
-    }
+
     .button:hover { transform: translateY(-2px); }
 
-    .query-panel {
-      background: #20262d;
-      color: #eef6f5;
-      border-radius: 26px;
-      padding: 24px;
-      box-shadow: 0 24px 50px rgba(32,38,45,.22);
-      border: 1px solid rgba(255,255,255,.08);
-      transform: rotate(1.2deg);
+    .button-primary {
+      color: #fff;
+      background: linear-gradient(135deg,var(--teal),#3c9e9c);
+      box-shadow: 0 14px 30px rgba(46,140,138,.23);
     }
-    .query-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      color: #b9c8c6;
-      font-size: .82rem;
-    }
-    .dots { display: flex; gap: 7px; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; background: #75807f; }
-    pre {
-      margin: 0;
-      white-space: pre-wrap;
-      font: 500 .92rem/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-    .sql-key { color: #cdbef6; }
-    .sql-field { color: #7ed0c9; }
-    .sql-string { color: #f2d59c; }
-    .result-strip {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .result {
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-    .result strong { display: block; font-size: 1.1rem; color: #fff; }
-    .result span { font-size: .72rem; color: #a9b5b4; text-transform: uppercase; letter-spacing: .08em; }
 
-    .section { padding: 84px 0 0; }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      align-items: end;
-      margin-bottom: 24px;
+    .button-secondary {
+      background: #fff;
+      border: 1px solid var(--border);
     }
-    .kicker {
-      color: var(--teal);
-      font-size: .8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      margin-bottom: 8px;
-    }
-    h2 {
-      margin: 0;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(2.4rem, 5vw, 4.2rem);
-      line-height: 1;
-      letter-spacing: -.04em;
-    }
-    .section-head p { margin: 0; max-width: 520px; color: var(--muted); line-height: 1.7; }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-    .card {
+    .visual-panel {
       position: relative;
-      overflow: hidden;
-      min-height: 250px;
-      padding: 24px;
-      border-radius: 24px;
-      background: var(--surface);
-      border: 1px solid rgba(228,230,234,.95);
-      box-shadow: 0 14px 40px rgba(46,49,56,.08);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(46,49,56,.12); }
-    .card::after {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      right: -52px;
-      bottom: -52px;
-      background: radial-gradient(circle, rgba(46,140,138,.16), transparent 70%);
-    }
-    .icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
       display: grid;
       place-items: center;
-      font-size: 1.25rem;
-      background: var(--teal-soft);
-      margin-bottom: 22px;
-    }
-    .card:nth-child(2) .icon { background: rgba(205,190,246,.5); }
-    .card:nth-child(3) .icon { background: rgba(132,168,154,.2); }
-    .card:nth-child(4) .icon { background: rgba(242,213,156,.35); }
-    .card h3 { margin: 0 0 10px; font-size: 1.12rem; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; font-size: .95rem; }
-    .card .mini-label {
-      display: inline-block;
-      margin-top: 20px;
-      color: var(--teal-dark);
-      font-size: .74rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .09em;
+      min-height: 430px;
     }
 
-    .throughline {
-      margin-top: 84px;
-      padding: clamp(30px, 5vw, 56px);
-      border-radius: 30px;
-      background: linear-gradient(135deg, #1f6665, #2e8c8a 58%, #7762bd);
-      color: #fff;
-      box-shadow: 0 24px 60px rgba(46,140,138,.24);
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 32px;
-      align-items: center;
+    .explorer-preview {
+      width: min(100%,420px);
+      padding: 20px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--border);
+      box-shadow: 0 28px 70px rgba(46,49,56,.15);
+      transform: rotate(1.5deg);
     }
-    .throughline h2 { color: #fff; }
-    .throughline p { color: rgba(255,255,255,.82); line-height: 1.75; max-width: 650px; }
-    .path {
-      display: grid;
-      gap: 12px;
-    }
-    .path-step {
+
+    .preview-top {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.15);
-      backdrop-filter: blur(8px);
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: .83rem;
       font-weight: 700;
     }
-    .path-step span:first-child { font-size: 1.2rem; }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 6px rgba(46,140,138,.12);
+    }
+
+    .technique-panel {
+      padding: 20px;
+      border-radius: 18px;
+      background: linear-gradient(145deg,#fff,var(--teal-soft));
+      border: 1px solid rgba(46,140,138,.18);
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .technique-panel strong {
+      display: block;
+      margin-bottom: 17px;
+      font-size: 1.05rem;
+    }
+
+    .platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .platforms span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--border);
+      font-size: .76rem;
+      font-weight: 700;
+    }
+
+    .mini-matrix {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mini-matrix span {
+      min-height: 45px;
+      padding: 7px;
+      display: flex;
+      align-items: flex-end;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #f5f6f7;
+      font-size: .58rem;
+      font-weight: 700;
+    }
+
+    .mini-matrix span.active {
+      color: #fff;
+      background: linear-gradient(135deg,var(--teal),var(--lavender));
+    }
+
+    .section {
+      padding: clamp(30px,5vw,56px);
+      border-radius: var(--radius-lg);
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .section-heading p { margin: 11px 0 0; }
+
+    .grid-3,
+    .grid-4,
+    .resource-grid,
+    .journey-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3,minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4,minmax(0,1fr)); }
+    .resource-grid,
+    .journey-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+
+    .card,
+    .resource-card,
+    .journey-card {
+      padding: 24px;
+      border-radius: var(--radius-md);
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border-radius: 15px;
+      background: var(--teal-soft);
+      font-size: 1.25rem;
+    }
+
+    .card:nth-child(even) .icon-box { background: rgba(205,190,246,.5); }
+    .card p, .resource-card p, .journey-card p { margin: 0; }
+
+    .featured {
+      display: grid;
+      grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .feature-copy {
+      padding: 28px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(145deg,var(--teal-soft),rgba(255,255,255,.9));
+      border: 1px solid rgba(46,140,138,.18);
+    }
+
+    .feature-copy .eyebrow {
+      color: var(--teal-dark);
+      font-size: .76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .feature-copy h3 {
+      margin-top: 11px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.25rem;
+    }
+
+    .live-card {
+      padding: 28px;
+      border-radius: var(--radius-md);
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .live-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .live-row:last-child { border-bottom: 0; }
+    .live-row span { color: var(--muted); font-size: .85rem; font-weight: 700; }
+    .live-row strong { font-size: .96rem; }
+
+    .path {
+      display: grid;
+      grid-template-columns: repeat(6,minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .path-step {
+      position: relative;
+      padding: 20px 16px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .path-step .number {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--teal);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .path-step p { margin: 0; font-size: .88rem; }
+
+    .journey-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 225px;
+    }
+
+    .journey-card .button {
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    .note {
+      margin-top: 22px;
+      padding: 20px 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg,rgba(215,240,238,.78),rgba(205,190,246,.34));
+      border: 1px solid rgba(46,140,138,.17);
+      color: var(--muted);
+      line-height: 1.65;
+    }
 
     footer {
-      padding: 34px 0 4px;
+      padding: 30px 6px 0;
       display: flex;
       justify-content: space-between;
       gap: 20px;
-      align-items: center;
       color: var(--muted);
       font-size: .9rem;
     }
-    footer a { text-decoration: none; font-weight: 700; color: var(--teal-dark); }
 
-    @media (max-width: 930px) {
-      .hero-grid, .throughline { grid-template-columns: 1fr; }
-      .query-panel { transform: none; }
-      .cards { grid-template-columns: repeat(2, 1fr); }
-      .section-head { align-items: start; flex-direction: column; }
+    footer a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: none;
     }
-    @media (max-width: 620px) {
-      .page-shell { width: min(100% - 20px, 1180px); padding-top: 14px; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .featured { grid-template-columns: 1fr; }
+      .grid-3, .resource-grid, .journey-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .grid-4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .path { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .visual-panel { min-height: 390px; }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell { width: min(100% - 20px,1180px); padding-top: 12px; }
       .topbar { border-radius: 20px; padding: 12px 14px; }
-      .brand span:last-child { display: none; }
-      .hero { border-radius: 24px; padding: 28px 22px; }
-      h1 { font-size: clamp(3rem, 18vw, 4.8rem); }
-      .cards { grid-template-columns: 1fr; }
-      .card { min-height: auto; }
-      .result-strip { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .brand-text { display: none; }
+      .hero { padding: 30px 22px; border-radius: 26px; }
+      h1 { font-size: clamp(3rem,17vw,4.8rem); }
+      .hero-actions, .card-actions { flex-direction: column; }
+      .button { width: 100%; }
+      .visual-panel { min-height: 330px; }
+      .explorer-preview { transform: none; }
+      .section { padding: 28px 20px; border-radius: 24px; }
+      .grid-3, .grid-4, .resource-grid, .journey-grid, .path { grid-template-columns: 1fr; }
+      .live-row { grid-template-columns: 1fr; gap: 5px; }
+      footer { flex-direction: column; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="page-shell">
     <nav class="topbar" aria-label="Primary navigation">
-      <a class="brand" href="../" aria-label="DataSec Labs home">
-        <span class="brand-mark">DS</span>
-        <span>DataSec Labs</span>
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">DS</span>
+        <span class="brand-text">DataSec Labs</span>
       </a>
-      <a class="back-link" href="../">← Back to Home</a>
+      <a class="back-link" href="/">← Back to Labs Home</a>
     </nav>
 
     <section class="hero">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow-row">
-            <span class="eyebrow">Data to Cyber</span>
-            <span class="status"><span class="pulse" aria-hidden="true"></span> In Development</span>
+          <div class="badge-row">
+            <span class="badge badge-primary">📚 Beginner-Friendly Learning Lab</span>
+            <span class="badge badge-secondary">In Development</span>
           </div>
 
-          <h1>SQL <span>Security Labs</span></h1>
-          <p class="tagline">Query. Investigate. Discover.</p>
+          <h1>SQL Security <span>Labs</span></h1>
+
           <p class="hero-copy">
-            Interactive, beginner-friendly investigations that show how SQL can uncover suspicious activity, reveal anomalies, and turn raw security data into a clear story.
+            Practice security-focused SQL through interactive guides, query labs, anomaly detection exercises, dashboard analysis, and investigation scenarios.
+          </p>
+
+          <p class="microcopy">
+            No prior security analytics experience required. Start with familiar data skills and build toward practical investigation workflows.
           </p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="#coming">See what's coming ↓</a>
-            <a class="button button-secondary" href="../">Explore DataSec Labs</a>
+            <a class="button button-primary" href="#interactive-experience">Explore the Lab Preview ↓</a>
+            <a class="button button-secondary" href="https://www.datasecchronicles.com/" target="_blank" rel="noopener">Visit DataSec Chronicles ↗</a>
           </div>
         </div>
 
-        <div class="query-panel" aria-label="SQL investigation preview">
-          <div class="query-top">
-            <div class="dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <span>investigation.sql</span>
-          </div>
-          <pre><span class="sql-key">SELECT</span>
-  <span class="sql-field">src_ip</span>,
-  <span class="sql-field">COUNT</span>(*) <span class="sql-key">AS</span> failed_attempts
-<span class="sql-key">FROM</span> auth_logs
-<span class="sql-key">WHERE</span> action = <span class="sql-string">'failed_login'</span>
-<span class="sql-key">GROUP BY</span> src_ip
-<span class="sql-key">HAVING</span> <span class="sql-field">COUNT</span>(*) &gt; 10
-<span class="sql-key">ORDER BY</span> failed_attempts <span class="sql-key">DESC</span>;</pre>
-          <div class="result-strip">
-            <div class="result"><strong>4</strong><span>IPs flagged</span></div>
-            <div class="result"><strong>37</strong><span>failed logins</span></div>
-            <div class="result"><strong>1</strong><span>priority lead</span></div>
+        <div class="visual-panel" aria-label="Preview of the MITRE ATT&CK Explorer">
+          <div class="explorer-preview">
+            <div class="preview-top">
+              <span>SQL Investigation Preview</span>
+              <span class="status-dot" aria-hidden="true"></span>
+            </div>
+
+            <div class="technique-panel">
+              <span class="field-label">Dataset</span>
+              <strong>Authentication Logs</strong>
+
+              <span class="field-label">Query Focus</span>
+              <strong>Find Unusual Login Patterns</strong>
+
+              <span class="field-label">Tools</span>
+              <div class="platforms">
+                <span>SQL</span>
+                <span>Dashboards</span>
+                <span>Investigations</span>
+              </div>
+            </div>
+
+            <div class="mini-matrix" aria-hidden="true">
+              <span>Filter</span>
+              <span class="active">Detect</span>
+              <span>Group</span>
+              <span>Compare</span>
+              <span>Visualize</span>
+              <span>Investigate</span>
+              <span>Explain</span>
+              <span>Document</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="coming">
-      <div class="section-head">
-        <div>
-          <div class="kicker">What you'll explore</div>
-          <h2>From raw rows to security findings.</h2>
-        </div>
-        <p>Each lab will connect familiar data skills to practical cybersecurity questions, so you can learn the investigation process—not just memorize syntax.</p>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <div class="icon" aria-hidden="true">🗂️</div>
-          <h3>Query Security Logs</h3>
-          <p>Filter large datasets, narrow event windows, and search for indicators hidden inside noisy records.</p>
-          <span class="mini-label">SQL foundations</span>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">📊</div>
-          <h3>Detect Anomalies</h3>
-          <p>Compare normal and unusual behavior, identify spikes, and use grouped results to surface patterns worth investigating.</p>
-          <span class="mini-label">Pattern recognition</span>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">🔎</div>
-          <h3>Investigate Events</h3>
-          <p>Follow SOC-style questions, connect related records, and trace suspicious activity through a structured workflow.</p>
-          <span class="mini-label">Analyst thinking</span>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">📈</div>
-          <h3>Build the Story</h3>
-          <p>Turn query results into clear findings, useful visuals, and concise explanations that stakeholders can understand.</p>
-          <span class="mini-label">Dashboards & reporting</span>
-        </article>
-      </div>
-    </section>
-
-    <section class="throughline">
-      <div>
-        <div class="kicker" style="color:#d7f0ee;">The DataSec throughline</div>
-        <h2>Your data skills already belong in security.</h2>
+    <section class="section">
+      <div class="section-heading">
+        <h2>Why practice security analytics with SQL?</h2>
         <p>
-          These labs are inspired by real DataSec Chronicles projects, including Zeek log analysis, anomaly detection, SQL investigations, and threat-hunting workflows. The goal is to make the bridge from data analytics to cybersecurity visible—and practical.
+          Security analytics becomes more practical when you can query the data, recognize unusual patterns, visualize the results, and explain what deserves investigation.
         </p>
       </div>
-      <div class="path" aria-label="Data to cybersecurity learning path">
-        <div class="path-step"><span>🗄️</span><span>Query the data</span></div>
-        <div class="path-step"><span>📊</span><span>Spot the anomaly</span></div>
-        <div class="path-step"><span>🔎</span><span>Investigate the activity</span></div>
-        <div class="path-step"><span>🛡️</span><span>Communicate the finding</span></div>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">🧠</div>
+          <h3>Query Security Data</h3>
+          <p>Practice filtering, grouping, joining, and summarizing security-relevant datasets.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">🔍</div>
+          <h3>Find Anomalies</h3>
+          <p>Compare normal activity with unusual patterns that may require deeper review.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">🛠️</div>
+          <h3>Investigate Findings</h3>
+          <p>Move from query output to dashboards, evidence review, conclusions, and documented next steps.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="interactive-experience">
+      <div class="section-heading">
+        <h2>Featured interactive investigation</h2>
+        <p>
+          The labs are designed to guide you from a security question to a SQL query, then from query results to anomaly review, visualization, and investigation.
+        </p>
+      </div>
+
+      <div class="featured">
+        <div class="feature-copy">
+          <span class="eyebrow">Interactive preview</span>
+          <h3>Query the data. Find the signal. Investigate the story.</h3>
+          <p>
+            Work through focused datasets, write or review queries, identify suspicious patterns, and decide what the evidence supports.
+          </p>
+          <div class="card-actions">
+            <a class="button button-primary" href="#learning-path">See the Learning Path</a>
+          </div>
+        </div>
+
+        <div class="live-card" aria-label="Example MITRE ATT&CK technique details">
+          <div class="live-row">
+            <span>Security question</span>
+            <strong>Which accounts show unusual authentication activity?</strong>
+          </div>
+          <div class="live-row">
+            <span>SQL task</span>
+            <strong>Group failed logins by account, source, and time window.</strong>
+          </div>
+          <div class="live-row">
+            <span>Anomaly review</span>
+            <strong>Compare spikes, rare sources, timing, and repeated failures.</strong>
+          </div>
+          <div class="live-row">
+            <span>Investigation step</span>
+            <strong>Validate the pattern, review context, and document the finding.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>Interactive tools in these labs</h2>
+        <p>Use multiple learning formats to practice SQL and security analysis without turning the Labs page into a long-form textbook.</p>
+      </div>
+
+      <div class="grid-4">
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">🎯</div>
+          <h3>SQL Query Labs</h3>
+          <p>Practice SELECT, WHERE, GROUP BY, JOIN, CASE, window functions, and investigative queries.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">⚙️</div>
+          <h3>Anomaly Detection</h3>
+          <p>Find spikes, outliers, rare events, repeated behavior, and unexpected combinations.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">📂</div>
+          <h3>Dashboard Challenges</h3>
+          <p>Turn query results into focused visuals that support—not replace—analyst judgment.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon-box" aria-hidden="true">🛡️</div>
+          <h3>Investigation Scenarios</h3>
+          <p>Review evidence, form a hypothesis, test it, and document a defensible conclusion.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="learning-path">
+      <div class="section-heading">
+        <h2>Suggested investigation path</h2>
+        <p>A repeatable workflow for moving from a security question to a documented analytical finding.</p>
+      </div>
+
+      <div class="path">
+        <article class="path-step">
+          <div class="number">1</div>
+          <h3>Understand the Dataset</h3>
+          <p>Review the fields, time range, and available context.</p>
+        </article>
+        <article class="path-step">
+          <div class="number">2</div>
+          <h3>Explore SQL Query Labs</h3>
+          <p>Define what behavior or risk you are trying to understand.</p>
+        </article>
+        <article class="path-step">
+          <div class="number">3</div>
+          <h3>Study Anomaly Detection</h3>
+          <p>Filter, group, join, and calculate the evidence you need.</p>
+        </article>
+        <article class="path-step">
+          <div class="number">4</div>
+          <h3>Identify Anomalies</h3>
+          <p>Compare expected patterns with unusual activity.</p>
+        </article>
+        <article class="path-step">
+          <div class="number">5</div>
+          <h3>Build the Dashboard</h3>
+          <p>Visualize the most useful findings without adding noise.</p>
+        </article>
+        <article class="path-step">
+          <div class="number">6</div>
+          <h3>Investigate and Document</h3>
+          <p>Validate the signal, explain limitations, and record next steps.</p>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>Practice here. Go deeper on DataSec Chronicles.</h2>
+        <p>
+          These labs are intentionally built for active querying, analysis, visualization, and investigation rather than long-form instruction.
+        </p>
+      </div>
+
+      <div class="featured">
+        <div class="feature-copy">
+          <span class="eyebrow">DataSec Labs</span>
+          <h3>Practice the investigation workflow.</h3>
+          <p>
+            Use SQL labs, anomaly exercises, dashboard challenges, investigation scenarios, quizzes, and quick-reference study tools.
+          </p>
+        </div>
+
+        <div class="live-card">
+          <div class="live-row">
+            <span>DataSec Chronicles</span>
+            <strong>Read the in-depth explanations, complete walkthroughs, and security analytics tutorials.</strong>
+          </div>
+          <div class="live-row">
+            <span>Companion content</span>
+            <strong>Find detailed SQL articles, anomaly detection explanations, dashboard guidance, printables, and downloadable resources.</strong>
+          </div>
+          <div class="live-row">
+            <span>Community</span>
+            <strong>Join the newsletter, comment, and share your journey.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>Continue your journey</h2>
+        <p>DataSec Labs is where you interact, practice, and test your knowledge. DataSec Chronicles is where you can read the in-depth explanations, detailed tutorials, companion guides, and downloadable resources.</p>
+      </div>
+
+      <div class="journey-grid">
+        <article class="journey-card">
+          <div class="icon-box" aria-hidden="true">📖</div>
+          <h3>Read on DataSec Chronicles</h3>
+          <p>Read the deeper explanations, detailed SQL walkthroughs, anomaly detection concepts, dashboard guidance, and investigation companion articles.</p>
+          <a class="button button-secondary" href="https://www.datasecchronicles.com/" target="_blank" rel="noopener">Visit the Blog ↗</a>
+        </article>
+
+        <article class="journey-card">
+          <div class="icon-box" aria-hidden="true">🌟</div>
+          <h3>Share the Journey</h3>
+          <p>Celebrate your progress, share what helped you learn, or suggest a future dataset, query challenge, dashboard exercise, or investigation scenario.</p>
+          <a class="button button-primary" href="https://www.datasecchronicles.com/share-the-journey" target="_blank" rel="noopener">Share Your Journey ↗</a>
+        </article>
+
+        <article class="journey-card">
+          <div class="icon-box" aria-hidden="true">🔬</div>
+          <h3>Explore Another Lab</h3>
+          <p>Continue with the MITRE ATT&amp;CK Explorer, Career Builder, Career Roadmap Bingo, quizzes, and future study tools.</p>
+          <a class="button button-secondary" href="/">Explore DataSec Labs</a>
+        </article>
+      </div>
+
+      <div class="note">
+        <strong>SQL Security Labs is actively being built.</strong>
+        The landing page is ready now. As the project grows, it can connect to SQL query labs, anomaly detection exercises, dashboard challenges, investigation scenarios, quizzes, and focused study tools.
       </div>
     </section>
 
     <footer>
-      <span>DataSec Labs · Interactive learning for curious career changers.</span>
-      <a href="../">← Return to DataSec Labs</a>
+      <span>© <span id="year"></span> DataSec Chronicles</span>
+      <a href="/">Return to DataSec Labs →</a>
     </footer>
   </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
