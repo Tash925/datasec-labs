@@ -1,98 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DataSec Labs</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: #f5f9ff;
-            color: #1a2a3a;
-        }
-        h1 {
-            color: #0a2a4a;
-            border-bottom: 3px solid #1a5a8e;
-            padding-bottom: 0.5rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
-            text-decoration: none;
-            color: #1a2a3a;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #e8edf4;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-        .card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .card h3 {
-            margin: 0.5rem 0 0.25rem;
-        }
-        .card p {
-            font-size: 0.85rem;
-            color: #5a6a7a;
-            margin: 0;
-        }
-        .footer {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #dce4ec;
-            text-align: center;
-            color: #5a6a7a;
-            font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DataSec Labs — interactive cybersecurity learning from DataSec Chronicles." />
+  <meta name="theme-color" content="#FAF8F5" />
+  <title>DataSec Labs | Interactive Cybersecurity Learning</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <h1>🛡️ DataSec Labs</h1>
-    <p>Interactive cybersecurity learning by DataSec Chronicles.</p>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="grid">
-        <a href="bingo/" class="card">
-            <div class="icon">🔄</div>
-            <h3>Bingo</h3>
-            <p>Cybersecurity bingo board</p>
-        </a>
-        <a href="mitre/" class="card">
-            <div class="icon">🎯</div>
-            <h3>MITRE ATT&CK</h3>
-            <p>Framework explorer</p>
-        </a>
-        <a href="sql/" class="card">
-            <div class="icon">🗄️</div>
-            <h3>SQL Labs</h3>
-            <p>Interactive SQL challenges</p>
-        </a>
-        <a href="checklists/" class="card">
-            <div class="icon">✅</div>
-            <h3>Checklists</h3>
-            <p>Security checklists</p>
-        </a>
-        <a href="labs/" class="card">
-            <div class="icon">🧪</div>
-            <h3>Labs</h3>
-            <p>Hands-on cybersecurity</p>
-        </a>
-    </div>
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="brand" href="#top" aria-label="DataSec Labs home">
+        <span class="brand-mark">DS</span>
+        <span class="brand-copy">
+          <strong>DataSec Labs</strong>
+          <small>by DataSec Chronicles</small>
+        </span>
+      </a>
 
-    <div class="footer">
-        <p>🔐 Built with ❤️ for the security community</p>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span></span><span></span><span></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+        <a href="#labs">Labs</a>
+        <a href="#pathways">Pathways</a>
+        <a href="#about">About</a>
+        <a class="nav-cta" href="https://www.datasecchronicles.com/">Visit the Blog</a>
+      </nav>
     </div>
-</body>
-</html>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-orb hero-orb-one"></div>
