@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Foundations Career Roadmap Bingo by DataSec Labs — an interactive beginner cybersecurity roadmap." />
-  <title>Foundations Career Roadmap Bingo | DataSec Labs</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Foundations Career Roadmap Bingo by DataSec Labs — an interactive beginner cybersecurity roadmap." name="description"/>
+<title>Foundations Career Roadmap Bingo | DataSec Labs</title>
+<style>
     :root {
       --bg: #f4f7fb;
       --panel: rgba(255, 255, 255, 0.9);
@@ -393,49 +394,97 @@
         break-inside: avoid;
       }
     }
-  </style>
+  
+
+.intro-card{
+background:#faf8f5;
+border:1px solid #cdbef6;
+border-left:6px solid #2e8c8a;
+border-radius:18px;
+padding:22px 24px;
+margin:0 0 24px;
+}
+.intro-card h2{margin:0 0 10px;font-size:1.35rem;color:#17324d;}
+.intro-card p{line-height:1.6;color:#4A4F58;}
+.intro-card ul{margin:14px 0 18px;padding-left:20px;color:#2E3138;}
+.intro-card li{margin-bottom:8px;}
+.guide-btn{
+display:inline-block;
+margin-top:8px;
+background:#2E8C8A;
+color:#fff!important;
+padding:10px 18px;
+border-radius:12px;
+text-decoration:none;
+font-weight:700;
+}
+.board-lead{
+text-align:center;
+font-weight:700;
+color:#365a7a;
+margin:8px 0 18px;
+}
+.motivation{
+margin:28px auto 20px;
+padding:20px;
+background:#faf8f5;
+border-radius:16px;
+border:1px solid #e4e6ea;
+text-align:center;
+}
+.motivation h3{margin-top:0;color:#17324d;}
+.motivation p{color:#4A4F58;line-height:1.6;}
+</style>
 </head>
 <body>
-  <main class="page-shell">
-    <a href="../" style="display:inline-block;margin:0 0 14px;color:#2f6fce;font-weight:700;text-decoration:none;">← Back to Career Roadmap Bingo</a>
-    <section class="poster" aria-labelledby="page-title">
-      <div class="brand-row">
-        <div class="brand">DATASEC LABS</div>
-        <div class="volume">VOL. 1</div>
-      </div>
-
-      <h1 id="page-title">FOUNDATIONS</h1>
-      <p class="subtitle">Cyber Career Roadmap Bingo</p>
-
-      <div class="controls">
-        <div class="progress-wrap" aria-live="polite">
-          <div class="progress-label">
-            <span>Your progress</span>
-            <span id="progressText">1 of 25 complete</span>
-          </div>
-          <div class="progress-track" aria-hidden="true">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-        </div>
-        <button class="reset-button" id="resetButton" type="button">Reset board</button>
-      </div>
-
-      <div class="bingo-grid" id="bingoGrid" aria-label="Interactive cybersecurity bingo board"></div>
-
-      <div class="win-banner" id="winBanner" role="status">
+<main class="page-shell">
+<a href="../" style="display:inline-block;margin:0 0 14px;color:#2f6fce;font-weight:700;text-decoration:none;">← Back to Career Roadmap Bingo</a>
+<section aria-labelledby="page-title" class="poster">
+<div class="brand-row">
+<div class="brand">DATASEC LABS</div>
+<div class="volume">VOL. 1</div>
+</div>
+<h1 id="page-title">FOUNDATIONS</h1>
+<p class="subtitle">Cyber Career Roadmap Bingo</p>
+<div class="intro-card">
+<h2>🧭 Before You Begin</h2>
+<p>Welcome to <strong>Foundations</strong>, the first volume in the Career Roadmap Bingo series.</p>
+<ul>
+<li>✔ Complete the milestones in <strong>any order</strong></li>
+<li>✔ Learn at <strong>your own pace</strong></li>
+<li>✔ Your progress is automatically saved on this device</li>
+</ul>
+<p><strong>📖 Need help with a square?</strong><br/>
+Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanations, trusted learning resources, and suggested next steps.</p>
+<p><a class="guide-btn" href="https://www.datasecchronicles.com/share-the-journey">→ Get the FREE Quick Guide</a></p>
+</div><div class="controls">
+<div aria-live="polite" class="progress-wrap">
+<div class="progress-label">
+<span>Your Foundations Progress</span>
+<span id="progressText">1 of 25 complete</span>
+</div>
+<div aria-hidden="true" class="progress-track">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
+<button class="reset-button" id="resetButton" type="button">Reset board</button>
+</div>
+<p class="board-lead">Every completed square is another step toward building your cybersecurity foundation.</p><div aria-label="Interactive cybersecurity bingo board" class="bingo-grid" id="bingoGrid"></div>
+<div class="win-banner" id="winBanner" role="status">
         Bingo! You completed a full row, column, or diagonal.
       </div>
-
-      <p class="hint">Click any square to mark it complete. Your progress is saved automatically in this browser.</p>
-
-      <footer>
-        <div class="site"><a href="../" style="color:inherit;text-decoration:none;">← Career Roadmap Bingo</a></div>
-        <div class="tagline">by DataSec Chronicles · storm-to-soc / a career changer’s path</div>
-      </footer>
-    </section>
-  </main>
-
-  <script>
+<p class="hint">Click any square to mark it complete. Your progress is automatically saved in this browser, so you can come back anytime and continue where you left off.</p>
+<div class="motivation">
+<h3>🌟 Keep Going</h3>
+<p>Whether you've completed one square or all twenty-five, every milestone brings you one step closer to your cybersecurity goals.</p>
+<p><strong>Keep learning. Keep building. Keep growing.</strong></p>
+</div><footer>
+<div class="site"><a href="../" style="color:inherit;text-decoration:none;">← Career Roadmap Bingo</a></div>
+<div class="tagline">by DataSec Chronicles · storm-to-soc / a career changer’s path</div>
+</footer>
+</section>
+</main>
+<script>
     const squares = [
       ["🛡️", "Learn what cybersecurity is"],
       ["🧭", "Explore cyber career paths"],
