@@ -486,34 +486,38 @@ Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanat
 </main>
 <script>
     const squares = [
-      ["🛡️", "Learn what cybersecurity is"],
-      ["🧭", "Explore cyber career paths"],
-      ["🔺", "Learn the CIA Triad"],
-      ["🐞", "Understand common cyber threats"],
-      ["🌐", "Learn how the internet works"],
-      ["⚔️", "Try a beginner CTF challenge"],
-      ["⌨️", "Learn basic command line"],
-      ["🔐", "Learn password & account security"],
-      ["🗒️", "Set up a notes system"],
-      ["👥", "Join a cyber community"],
-      ["🖧", "Learn basic networking (ports, IP)"],
-      ["🔎", "Read about a known vulnerability (CVE)"],
-      ["⭐", "FREE SPACE – Keep Learning"],
-      ["📄", "Learn what system logs are"],
-      ["🗄️", "Learn basic SQL"],
-      ["🐍", "Try a beginner Python exercise"],
-      ["🧊", "Install VirtualBox or VMware"],
-      ["🐧", "Learn Linux basics"],
-      ["💻", "Write your first SQL query"],
-      ["⚖️", "Learn ethical hacking vs. illegal (scope)"],
-      ["☁️", "Complete your first TryHackMe room"],
-      ["📋", "Read a real incident report"],
-      ["🐙", "Start a GitHub portfolio"],
-      ["⬆️", "Share something you learned #BuildInPublic"],
-      ["🏅", "Earn your first certification"]
+      { id: "what-is-cybersecurity", icon: "\ud83d\udee1\ufe0f", text: "Learn what cybersecurity is" },
+      { id: "explore-cyber-careers", icon: "\ud83e\udded", text: "Explore cyber career paths" },
+      { id: "cia-triad", icon: "\ud83d\udd3a", text: "Learn the CIA Triad" },
+      { id: "common-cyber-threats", icon: "\ud83d\udc1e", text: "Understand common cyber threats" },
+      { id: "how-internet-works", icon: "\ud83c\udf10", text: "Learn how the internet works" },
+      { id: "beginner-ctf", icon: "\u2694\ufe0f", text: "Try a beginner CTF challenge" },
+      { id: "basic-command-line", icon: "\u2328\ufe0f", text: "Learn basic command line" },
+      { id: "password-account-security", icon: "\ud83d\udd10", text: "Learn password & account security" },
+      { id: "notes-system", icon: "\ud83d\uddd2\ufe0f", text: "Set up a notes system" },
+      { id: "join-cyber-community", icon: "\ud83d\udc65", text: "Join a cyber community" },
+      { id: "basic-networking", icon: "\ud83d\udda7", text: "Learn basic networking (ports, IP)" },
+      { id: "read-cve", icon: "\ud83d\udd0e", text: "Read about a known vulnerability (CVE)" },
+      { id: "free-space", icon: "\u2b50", text: "FREE SPACE \u2013 Keep Learning" },
+      { id: "system-logs", icon: "\ud83d\udcc4", text: "Learn what system logs are" },
+      { id: "basic-sql", icon: "\ud83d\uddc4\ufe0f", text: "Learn basic SQL" },
+      { id: "beginner-python", icon: "\ud83d\udc0d", text: "Try a beginner Python exercise" },
+      { id: "virtualization", icon: "\ud83e\uddca", text: "Install VirtualBox or VMware" },
+      { id: "linux-basics", icon: "\ud83d\udc27", text: "Learn Linux basics" },
+      { id: "first-sql-query", icon: "\ud83d\udcbb", text: "Write your first SQL query" },
+      { id: "ethical-hacking-scope", icon: "\u2696\ufe0f", text: "Learn ethical hacking vs. illegal (scope)" },
+      { id: "first-tryhackme-room", icon: "\u2601\ufe0f", text: "Complete your first TryHackMe room" },
+      { id: "read-incident-report", icon: "\ud83d\udccb", text: "Read a real incident report" },
+      { id: "start-github-portfolio", icon: "\ud83d\udc19", text: "Start a GitHub portfolio" },
+      { id: "share-build-in-public", icon: "\u2b06\ufe0f", text: "Share something you learned #BuildInPublic" },
+      { id: "first-certification", icon: "\ud83c\udfc5", text: "Earn your first certification" }
     ];
 
-    const storageKey = "datasec-foundations-bingo-v1";
+    const legacyStorageKey = "datasec-foundations-bingo-v1";
+    const storageKey = "datasec-foundations-bingo";
+    const boardVersion = 2;
+    const freeSpaceId = "free-space";
+
     const grid = document.getElementById("bingoGrid");
     const progressText = document.getElementById("progressText");
     const progressBar = document.getElementById("progressBar");
@@ -522,17 +526,65 @@ Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanat
 
     let completed = new Set();
 
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
-      completed = new Set(Array.isArray(saved) ? saved : []);
-    } catch {
-      completed = new Set();
+    function loadProgress() {
+      // Prefer the new ID-based format.
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (saved && Array.isArray(saved.completed)) {
+          return new Set(saved.completed.filter(id => squares.some(square => square.id === id)));
+        }
+      } catch {
+        // Fall through to the legacy migration.
+      }
+
+      // Migrate the original position-based array without losing progress.
+      try {
+        const legacy = JSON.parse(localStorage.getItem(legacyStorageKey) || "[]");
+        if (Array.isArray(legacy)) {
+          const migratedIds = legacy
+            .filter(index => Number.isInteger(index) && squares[index])
+            .map(index => squares[index].id);
+
+          const migrated = new Set(migratedIds);
+          migrated.add(freeSpaceId);
+
+          localStorage.setItem(storageKey, JSON.stringify({
+            board: "foundations",
+            version: boardVersion,
+            completed: [...migrated],
+            updatedAt: Date.now()
+          }));
+
+          return migrated;
+        }
+      } catch {
+        // Start fresh below.
+      }
+
+      return new Set([freeSpaceId]);
     }
 
-    completed.add(12);
+    completed = loadProgress();
+    completed.add(freeSpaceId);
 
     function saveProgress() {
-      localStorage.setItem(storageKey, JSON.stringify([...completed]));
+      const payload = {
+        board: "foundations",
+        version: boardVersion,
+        completed: [...completed],
+        updatedAt: Date.now()
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(payload));
+
+      // Keep the original key in sync so previously published landing pages
+      // and older board code continue to recognize the user's progress.
+      const legacyIndexes = squares
+        .map((square, index) => completed.has(square.id) ? index : null)
+        .filter(index => index !== null);
+
+      localStorage.setItem(legacyStorageKey, JSON.stringify(legacyIndexes));
+      localStorage.setItem(`${legacyStorageKey}:updated`, String(payload.updatedAt));
     }
 
     function hasBingo() {
@@ -541,17 +593,18 @@ Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanat
         [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22], [3,8,13,18,23], [4,9,14,19,24],
         [0,6,12,18,24], [4,8,12,16,20]
       ];
-      return lines.some(line => line.every(index => completed.has(index)));
+      return lines.some(line => line.every(index => completed.has(squares[index].id)));
     }
 
     function updateUI() {
       document.querySelectorAll(".tile").forEach((tile, index) => {
-        const isDone = completed.has(index);
-        tile.classList.toggle("completed", isDone && index !== 12);
+        const square = squares[index];
+        const isDone = completed.has(square.id);
+        tile.classList.toggle("completed", isDone && square.id !== freeSpaceId);
         tile.setAttribute("aria-pressed", isDone ? "true" : "false");
       });
 
-      const count = completed.size;
+      const count = squares.filter(square => completed.has(square.id)).length;
       const percent = Math.round((count / squares.length) * 100);
       progressText.textContent = `${count} of ${squares.length} complete`;
       progressBar.style.width = `${percent}%`;
@@ -560,29 +613,30 @@ Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanat
     }
 
     function buildBoard() {
-      squares.forEach(([icon, text], index) => {
+      squares.forEach((square) => {
         const tile = document.createElement("button");
         tile.type = "button";
         tile.className = "tile";
-        tile.setAttribute("aria-label", text);
-        tile.setAttribute("aria-pressed", completed.has(index) ? "true" : "false");
+        tile.dataset.squareId = square.id;
+        tile.setAttribute("aria-label", square.text);
+        tile.setAttribute("aria-pressed", completed.has(square.id) ? "true" : "false");
 
-        if (index === 12) {
+        if (square.id === freeSpaceId) {
           tile.classList.add("free");
           tile.disabled = true;
           tile.setAttribute("aria-label", "Free space, automatically complete");
         }
 
         tile.innerHTML = `
-          <span class="icon" aria-hidden="true">${icon}</span>
-          <span class="tile-text">${text}</span>
+          <span class="icon" aria-hidden="true">${square.icon}</span>
+          <span class="tile-text">${square.text}</span>
         `;
 
         tile.addEventListener("click", () => {
-          if (completed.has(index)) {
-            completed.delete(index);
+          if (completed.has(square.id)) {
+            completed.delete(square.id);
           } else {
-            completed.add(index);
+            completed.add(square.id);
           }
           updateUI();
         });
@@ -594,7 +648,7 @@ Download the <strong>FREE Foundations Quick Guide</strong> for detailed explanat
     }
 
     resetButton.addEventListener("click", () => {
-      completed = new Set([12]);
+      completed = new Set([freeSpaceId]);
       updateUI();
     });
 
