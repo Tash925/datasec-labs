@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataSec Chronicles · GitHub Portfolio Bingo · Bonus</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF8F5;
+  --card: #F1F2F4;
+  --heading: #2E3138;
+  --body: #4A4F58;
+  --border: #E4E6EA;
+  /* Bonus accent — sage primary, warm gold secondary, in-palette */
+  --primary: #7FA98A;
+  --primary-deep: #5E8A6A;
+  --primary-light: #E4EFE7;
+  --secondary: #C08A2E;
+  --secondary-light: #F0E2C6;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: 'Space Grotesk', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+.board {
+  width: 1024px;
+  max-width: 100%;
+  background: var(--bg);
+  position: relative;
+  padding: 48px 44px 40px;
+  overflow: hidden;
+}
+.board::before, .board::after {
+  content: '';
+  position: absolute;
+  width: 180px; height: 180px;
+  background-image: radial-gradient(circle, var(--border) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.board::before { top: 20px; left: 10px; }
+.board::after { bottom: 20px; right: 10px; }
+
+.terminal {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--primary-deep);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+.terminal .dim { color: var(--secondary); }
+
+.brandrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.brand {
+  font-weight: 700;
+  font-size: 27px;
+  letter-spacing: 0.14em;
+  color: var(--primary-deep);
+  text-align: center;
+}
+.vol-badge {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+  border-radius: 6px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.title-wrap { position: relative; padding: 10px 40px 4px; }
+.title {
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: var(--heading);
+  margin: 6px 0 2px;
+}
+.title-wrap::before, .title-wrap::after {
+  content: '';
+  position: absolute;
+  top: 8px; bottom: 8px;
+  width: 26px;
+}
+.title-wrap::before {
+  left: 0;
+  border-left: 3px solid var(--primary);
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  border-radius: 8px 0 0 8px;
+}
+.title-wrap::after {
+  right: 0;
+  border-right: 3px solid var(--primary);
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+}
+.subtitle {
+  text-align: center;
+  font-weight: 600;
+  font-size: 25px;
+  letter-spacing: 0.12em;
+  color: var(--primary-deep);
+  margin-top: 6px;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 20px 0 26px;
+}
+.divider .line { width: 120px; height: 1px; background: var(--border); }
+.divider .mark { width: 22px; height: 22px; color: var(--secondary); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.cell {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 150px;
+  box-shadow: 0 1px 3px rgba(46,49,56,0.04);
+}
+.cell .icon { width: 38px; height: 38px; margin-bottom: 12px; color: var(--primary-deep); flex-shrink: 0; }
+.cell:nth-child(even) .icon { color: var(--secondary); }
+.cell .label { font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--heading); }
+
+/* real-repo squares get a subtle gold corner tag */
+.cell.repo { position: relative; border-color: var(--secondary-light); }
+.cell.repo::after {
+  content: '\2605';
+  position: absolute;
+  top: 8px; right: 10px;
+  font-size: 11px;
+  color: var(--secondary);
+}
+/* avoid squares get a muted look */
+.cell.avoid .label { color: var(--body); }
+.cell.avoid .avoid-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--secondary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.cell.free {
+  background: linear-gradient(150deg, var(--primary) 0%, var(--primary-deep) 100%);
+  border: none;
+  justify-content: center;
+}
+.cell.free .icon { color: #fff; margin-bottom: 6px; width: 32px; height: 32px; }
+.cell.free .free-big {
+  font-weight: 700; font-size: 19px; letter-spacing: 0.04em;
+  color: #fff; line-height: 1.05;
+}
+.cell.free .free-sub {
+  font-size: 10.5px; color: var(--primary-light);
+  margin-top: 5px; font-family: 'Space Mono', monospace;
+}
+
+.actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin: 30px 0 18px;
+}
+.actions .capsule {
+  display: flex; align-items: center; gap: 26px;
+  border: 1.5px solid var(--secondary-light);
+  border-radius: 40px; padding: 10px 30px;
+}
+.actions .act {
+  display: flex; align-items: center; gap: 7px;
+  font-weight: 600; font-size: 14px; letter-spacing: 0.1em;
+  color: var(--secondary);
+}
+.actions .act svg { width: 18px; height: 18px; }
+.actions .side-line { width: 60px; height: 1px; background: var(--border); }
+
+.url {
+  text-align: center; font-weight: 700; font-size: 30px;
+  letter-spacing: 0.14em; color: var(--primary-deep);
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.url .globe { width: 22px; height: 22px; color: var(--secondary); }
+.tagline {
+  text-align: center; font-family: 'Space Mono', monospace;
+  font-size: 13px; letter-spacing: 0.16em; color: var(--body);
+  text-transform: uppercase; margin-top: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.tagline .line { width: 40px; height: 1px; background: var(--border); }
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 24px 0 22px;
+}
+.progress-wrap {
+  flex: 1 1 280px;
+  max-width: 620px;
+  min-width: 220px;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  color: var(--body);
+  font-size: 13px;
+  font-weight: 700;
+}
+.progress-track {
+  height: 11px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--secondary-light);
+}
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width 250ms ease;
+}
+.reset-button {
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 18px;
+  color: #fff;
+  background: var(--heading);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(46,49,56,.12);
+}
+.reset-button:hover {
+  transform: translateY(-1px);
+}
+.cell[role="button"] {
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.cell[role="button"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(46,49,56,.09);
+}
+.cell[role="button"]:focus-visible {
+  outline: 3px solid var(--secondary-light);
+  outline-offset: 3px;
+}
+.cell.completed {
+  background: linear-gradient(150deg, var(--primary), var(--primary-deep));
+  color: #fff;
+  border-color: transparent;
+}
+.cell.completed .label,
+.cell.completed .avoid-tag {
+  color: #fff;
+}
+.cell.completed .icon {
+  color: #fff !important;
+}
+.cell.completed::before {
+  content: "✓";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,.22);
+  color: #fff;
+  font-weight: 700;
+}
+.cell {
+  position: relative;
+}
+.win-banner {
+  display: none;
+  margin: 20px auto 0;
+  max-width: 700px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  text-align: center;
+  background: var(--primary-light);
+  color: var(--primary-deep);
+  font-weight: 700;
+  border: 1px solid var(--secondary-light);
+}
+.win-banner.show {
+  display: block;
+}
+.hint {
+  margin: 12px 0 0;
+  text-align: center;
+  color: var(--body);
+  font-size: 12px;
+}
+@media (max-width: 760px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+
+.intro-card {
+  background: var(--bg);
+  border: 1px solid var(--secondary-light);
+  border-left: 6px solid var(--primary);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin: 0 0 24px;
+}
+.intro-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  color: var(--heading);
+}
+.intro-card p {
+  line-height: 1.6;
+  color: var(--body);
+}
+.intro-card ul {
+  margin: 14px 0 18px;
+  padding-left: 20px;
+  color: var(--heading);
+}
+.intro-card li {
+  margin-bottom: 8px;
+}
+.guide-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: var(--primary-deep);
+  color: #fff !important;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.guide-btn:hover {
+  background: var(--heading);
+}
+.board-lead {
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary-deep);
+  margin: 8px 0 18px;
+}
+
+</style>
+</head>
+<body>
+<div class="board" id="board">
+
+  <div class="terminal">
+    // COMMIT<br>
+    &gt; <span class="dim">REPO_INITIALIZED</span><br>
+    &gt; <span class="dim">READY_FOR_REVIEW</span>
+  </div>
+
+  <div class="brandrow">
+    <div class="brand">D A T A S E C&nbsp;&nbsp;C H R O N I C L E S</div>
+    <div class="vol-badge">BONUS</div>
+  </div>
+
+  <div class="title-wrap">
+    <div class="title">GITHUB&nbsp;PORTFOLIO</div>
+  </div>
+
+  <div class="subtitle">A &nbsp;&nbsp; R E C R U I T E R - R E A D Y &nbsp; B I N G O</div>
+
+  <div class="divider">
+    <span class="line"></span>
+    <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 20 4.8 4.8 4.8 0 0 0 19.9 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.1 1 5.1 1A4.8 4.8 0 0 0 5 4.8a5.2 5.2 0 0 0-1.4 3.7c0 5.1 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 9 17.8V22"/></svg>
+    <span class="line"></span>
+  </div>
+
+
+
+  <div class="intro-card">
+    <h2>🧭 Before You Begin</h2>
+    <p>Welcome to <strong>GitHub Portfolio</strong>, a Bonus Board in the DataSec Bingo Collection.</p>
+    <ul>
+      <li>✔ Complete the portfolio milestones in <strong>any order</strong></li>
+      <li>✔ Build and improve your portfolio at <strong>your own pace</strong></li>
+      <li>✔ Your progress is automatically saved on this device</li>
+    </ul>
+    <p>
+      <strong>📖 Need help with a square?</strong><br>
+      Download the <strong>FREE companion resource</strong> for explanations, practical guidance,
+      and suggested next steps.
+    </p>
+    <p>
+      <a class="guide-btn" href="https://www.datasecchronicles.com/share-the-journey">
+        → Get the FREE Companion Resource
+      </a>
+    </p>
+  </div>
+
+  <p class="board-lead">
+    Every completed square is another step toward building a portfolio that clearly shows your skills, projects, and growth.
+  </p>
+
+  <div class="controls">
+    <div class="progress-wrap" aria-live="polite">
+      <div class="progress-label">
+        <span>Your GitHub Portfolio Progress</span>
+        <span id="progressText">1 of 25 complete</span>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+    <button class="reset-button" id="resetButton" type="button">Reset board</button>
+  </div>
+
+  <div class="grid" id="bingoGrid">
+
+    <!-- Row 0 -->
+    <div class="cell" data-square-id="professional-summary" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <div class="label">Write a professional summary (who / lane / value)</div>
+    </div>
+    <div class="cell" data-square-id="pick-your-lane" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h6l2-3 3 6 2-3h5"/><circle cx="12" cy="12" r="10"/></svg>
+      <div class="label">Pick your lane (don't cover everything)</div>
+    </div>
+    <div class="cell" data-square-id="github-pages-home" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10l9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-6h6v6"/></svg>
+      <div class="label">Create a GitHub Pages / Notion home</div>
+    </div>
+    <div class="cell" data-square-id="first-readme" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v5h5"/><path d="M8 13h8M8 17h5"/></svg>
+      <div class="label">Write your first project README</div>
+    </div>
+    <div class="cell" data-square-id="mirai-investigation-repo" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><circle cx="12" cy="11" r="2.5"/><path d="M12 13.5V16"/></svg>
+      <div class="label">Publish your Mirai investigation repo</div>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="cell" data-square-id="structure-writeup" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      <div class="label">Structure a writeup (why / what / tools / learned)</div>
+    </div>
+    <div class="cell" data-square-id="anomaly-detection-pipeline" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l5-5 3 3 4-6 3 4"/><circle cx="18" cy="8" r="1.5"/><path d="M3 21h18M3 3v18"/></svg>
+      <div class="label">Ship the anomaly detection pipeline</div>
+    </div>
+    <div class="cell" data-square-id="project-description" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+      <div class="label">Add a clear project description</div>
+    </div>
+    <div class="cell" data-square-id="document-as-you-go" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M5 8l7-5 7 5"/><path d="M5 8v8l7 5 7-5V8"/></svg>
+      <div class="label">Document as you go (not after)</div>
+    </div>
+    <div class="cell" data-square-id="link-from-linkedin" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="9" width="20" height="12" rx="2"/><path d="M6 9V6a2 2 0 0 1 2-2h4"/><circle cx="8" cy="15" r="1.5"/><path d="M12 15h6"/></svg>
+      <div class="label">Link projects from LinkedIn</div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="cell" data-square-id="certs-timeline" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4v16M4 12h6M10 8h5M10 16h8"/><circle cx="4" cy="4" r="1.5"/></svg>
+      <div class="label">Build a simple certs timeline</div>
+    </div>
+    <div class="cell" data-square-id="tryhackme-badge-writeup" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/><path d="M12 6v3l2 1"/></svg>
+      <div class="label">Show a TryHackMe badge / room writeup</div>
+    </div>
+
+    <div class="cell free" data-square-id="free-space" role="button" aria-disabled="true" aria-pressed="true">
+      <svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19l11-11-1.5-1.5z"/></svg>
+      <div class="free-big">DONE &gt;<br>PERFECT</div>
+      <div class="free-sub">— Ship It</div>
+    </div>
+
+    <div class="cell" data-square-id="currently-working-on" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+      <div class="label">List "currently working on" honestly</div>
+    </div>
+    <div class="cell" data-square-id="translate-for-nontech" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h10M4 19h7"/><path d="M15 17l3 3 3-4"/></svg>
+      <div class="label">Translate one project for non-tech readers</div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="cell" data-square-id="blog-post-project-link" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h6M7 13h8M7 17h4"/><path d="M16 6l2 2 3-3"/></svg>
+      <div class="label">Write a blog post with a project link</div>
+    </div>
+    <div class="cell" data-square-id="methodology-note" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
+      <div class="label">Add a methodology / how-you-work note</div>
+    </div>
+    <div class="cell" data-square-id="repo-navigation" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+      <div class="label">Make the repo easy to navigate</div>
+    </div>
+    <div class="cell" data-square-id="mitre-attack-mapping" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 7l3 9M16 7l-3 9M8 6h8"/></svg>
+      <div class="label">Map a project to MITRE ATT&amp;CK</div>
+    </div>
+    <div class="cell" data-square-id="resume-bullet" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M17 16l2 2 3-3"/></svg>
+      <div class="label">Add a résumé bullet to each project</div>
+    </div>
+
+    <!-- Row 4 — mistakes flipped -->
+    <div class="cell avoid" data-square-id="avoid-certs-only" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 8l8 8M16 8l-8 8"/></svg>
+      <div class="avoid-tag">avoid</div>
+      <div class="label">Certs as the whole portfolio</div>
+    </div>
+    <div class="cell avoid" data-square-id="avoid-empty-repo" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h1M8 12h1M8 16h1"/><path d="M15 9l4 4M19 9l-4 4"/></svg>
+      <div class="avoid-tag">avoid</div>
+      <div class="label">Empty repo, no docs</div>
+    </div>
+    <div class="cell avoid" data-square-id="avoid-copied-tutorial" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3h9l5 5v13H5z"/><path d="M13 3v5h5"/><path d="M9 13l2 2M15 13l-4 4"/></svg>
+      <div class="avoid-tag">avoid</div>
+      <div class="label">Copied tutorial, no input</div>
+    </div>
+    <div class="cell" data-square-id="ship-before-perfect" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2 5h5l-4 3 1.5 5.5L12 17l-4.5 3.5L9 15 5 12h5z"/></svg>
+      <div class="label">Ship it before it's "perfect"</div>
+    </div>
+    <div class="cell" data-square-id="keep-current" role="button" tabindex="0" aria-pressed="false">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M9 12l2 2 4-4"/></svg>
+      <div class="label">Keep the portfolio up to date</div>
+    </div>
+
+  </div>
+
+  <div class="win-banner" id="winBanner" role="status">Bingo! You completed a full row, column, or diagonal.</div>
+  <p class="hint">Select any square to mark it complete. Your progress is automatically saved in this browser.</p>
+
+  <div class="actions">
+    <span class="side-line"></span>
+    <div class="capsule">
+      <div class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4V3z"/></svg>SAVE</div>
+      <div class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>PRINT</div>
+      <div class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h10M4 18h7"/><path d="M15 16l2 2 3-3"/></svg>SHIP</div>
+    </div>
+    <span class="side-line"></span>
+  </div>
+
+  <div class="url">
+    <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+    D A T A S E C C H R O N I C L E S . C O M
+  </div>
+  <div class="tagline">
+    <span class="line"></span>
+    STORM-TO-SOC / A CAREER CHANGER'S PATH
+    <span class="line"></span>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    const boardId = "github-portfolio";
+    const boardVersion = 1;
+    const storageKey = "datasec-github-portfolio-bingo";
+    const legacyStorageKey = "datasec-github-portfolio-bingo-v1";
+    const freeSpaceId = "free-space";
+
+    const tiles = Array.from(document.querySelectorAll(".cell[data-square-id]"));
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+    const resetButton = document.getElementById("resetButton");
+    const winBanner = document.getElementById("winBanner");
+
+    function loadProgress() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (saved && Array.isArray(saved.completed)) {
+          return new Set(saved.completed);
+        }
+      } catch {}
+
+      try {
+        const legacy = JSON.parse(localStorage.getItem(legacyStorageKey) || "[]");
+        if (Array.isArray(legacy)) {
+          return new Set(
+            legacy
+              .filter(index => Number.isInteger(index) && tiles[index])
+              .map(index => tiles[index].dataset.squareId)
+          );
+        }
+      } catch {}
+
+      return new Set();
+    }
+
+    let completed = loadProgress();
+    completed.add(freeSpaceId);
+
+    function saveProgress() {
+      const updatedAt = Date.now();
+
+      localStorage.setItem(storageKey, JSON.stringify({
+        board: boardId,
+        version: boardVersion,
+        completed: [...completed],
+        updatedAt
+      }));
+
+      const legacyIndexes = tiles
+        .map((tile, index) => completed.has(tile.dataset.squareId) ? index : null)
+        .filter(index => index !== null);
+
+      localStorage.setItem(legacyStorageKey, JSON.stringify(legacyIndexes));
+      localStorage.setItem(`${legacyStorageKey}:updated`, String(updatedAt));
+    }
+
+    function hasBingo() {
+      const lines = [
+        [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14],
+        [15,16,17,18,19], [20,21,22,23,24],
+        [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22],
+        [3,8,13,18,23], [4,9,14,19,24],
+        [0,6,12,18,24], [4,8,12,16,20]
+      ];
+
+      return lines.some(line =>
+        line.every(index => completed.has(tiles[index].dataset.squareId))
+      );
+    }
+
+    function updateUI() {
+      tiles.forEach(tile => {
+        const id = tile.dataset.squareId;
+        const isDone = completed.has(id);
+
+        tile.classList.toggle("completed", isDone && id !== freeSpaceId);
+        tile.setAttribute("aria-pressed", isDone ? "true" : "false");
+      });
+
+      const count = tiles.filter(tile =>
+        completed.has(tile.dataset.squareId)
+      ).length;
+
+      progressText.textContent = `${count} of ${tiles.length} complete`;
+      progressBar.style.width = `${Math.round((count / tiles.length) * 100)}%`;
+      winBanner.classList.toggle("show", hasBingo());
+      saveProgress();
+    }
+
+    function toggleTile(tile) {
+      const id = tile.dataset.squareId;
+      if (id === freeSpaceId) return;
+
+      if (completed.has(id)) {
+        completed.delete(id);
+      } else {
+        completed.add(id);
+      }
+
+      updateUI();
+    }
+
+    tiles.forEach(tile => {
+      if (tile.dataset.squareId === freeSpaceId) return;
+
+      tile.addEventListener("click", () => toggleTile(tile));
+      tile.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleTile(tile);
+        }
+      });
+    });
+
+    resetButton.addEventListener("click", () => {
+      completed = new Set([freeSpaceId]);
+      updateUI();
+    });
+
+    updateUI();
+  })();
+</script>
+
+</body>
+</html>
