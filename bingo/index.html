@@ -490,6 +490,391 @@
     }
 
 
+    .collection-section {
+      padding: 86px 0 0;
+    }
+
+    .continue-panel {
+      display: none;
+      grid-template-columns: 170px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.88);
+      box-shadow: var(--shadow);
+    }
+
+    .continue-panel.is-visible {
+      display: grid;
+    }
+
+    .continue-cover {
+      aspect-ratio: 4 / 5;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      color: white;
+      text-align: center;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(255,255,255,.22), transparent 28%),
+        linear-gradient(145deg, var(--teal), #2f6fce 62%, var(--lavender));
+      box-shadow: 0 14px 28px rgba(46,49,56,.15);
+    }
+
+    .continue-cover.github {
+      background:
+        radial-gradient(circle at 25% 20%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(145deg, #6F8F72, #49614D 65%, #A87A28);
+    }
+
+    .continue-cover strong {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.55rem;
+      line-height: .95;
+    }
+
+    .continue-cover small {
+      display: block;
+      margin-top: 8px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .progress-wrap {
+      margin-top: 16px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--lavender));
+      transition: width .25s ease;
+    }
+
+    .progress-text {
+      margin-top: 8px;
+      font-size: .9rem;
+      color: #6f7580;
+      font-weight: 700;
+    }
+
+    .board-library {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .library-card {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 24px;
+      align-items: stretch;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 14px 30px rgba(46,49,56,.06);
+    }
+
+    .board-cover {
+      aspect-ratio: 4 / 5;
+      border-radius: 20px;
+      padding: 24px 18px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+      box-shadow: 0 18px 34px rgba(46,49,56,.16);
+    }
+
+    .board-cover::before,
+    .board-cover::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.14);
+    }
+
+    .board-cover::before {
+      width: 150px;
+      height: 150px;
+      top: -55px;
+      right: -50px;
+    }
+
+    .board-cover::after {
+      width: 120px;
+      height: 120px;
+      left: -45px;
+      bottom: -45px;
+    }
+
+    .board-cover.foundations {
+      background:
+        linear-gradient(150deg, var(--teal), #2f6fce 58%, var(--lavender));
+    }
+
+    .board-cover.github {
+      background:
+        linear-gradient(150deg, #6F8F72, #49614D 64%, #A87A28);
+    }
+
+    .cover-brand,
+    .cover-badge,
+    .cover-title,
+    .cover-subtitle {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-brand {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .cover-badge {
+      align-self: flex-end;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.7);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .cover-title {
+      margin: auto 0 8px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: .82;
+      letter-spacing: -.03em;
+    }
+
+    .cover-subtitle {
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .library-copy {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .library-meta {
+      color: var(--lavender);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .library-card.github .library-meta {
+      color: #8A6A2E;
+    }
+
+    .library-copy h3 {
+      margin: 8px 0 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .library-copy p {
+      margin: 0 0 18px;
+    }
+
+    .library-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .shelf {
+      margin-top: 28px;
+    }
+
+    .shelf h3 {
+      margin-bottom: 14px;
+      font-size: 1rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #6d737d;
+    }
+
+    .shelf-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(165px, 1fr);
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-snap-type: x proximity;
+    }
+
+    .shelf-item {
+      min-height: 210px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,.78);
+      scroll-snap-align: start;
+    }
+
+    .shelf-item strong {
+      display: block;
+      color: var(--heading);
+      margin-bottom: 8px;
+      font-size: 1.04rem;
+    }
+
+    .shelf-item span {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--lavender);
+      font-weight: 800;
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .shelf-item p {
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .card-progress {
+      display: none;
+      margin: 2px 0 18px;
+    }
+
+    .card-progress.is-visible {
+      display: block;
+    }
+
+    .card-progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      font-size: .82rem;
+      font-weight: 800;
+      color: #68717d;
+    }
+
+    .card-progress-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--card);
+    }
+
+    .card-progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--lavender));
+      transition: width .25s ease;
+    }
+
+    .library-card.github .card-progress-bar {
+      background: linear-gradient(90deg, #6F8F72, #A87A28);
+    }
+
+    .completion-badge {
+      display: none;
+      width: fit-content;
+      margin: 2px 0 18px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .completion-badge.is-visible {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .library-card.github .completion-badge {
+      background: #F0E2C6;
+      color: #7A5A20;
+    }
+
+    .library-note {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--teal-soft), rgba(255,255,255,.95));
+    }
+
+    @media (max-width: 980px) {
+      .board-library {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .continue-panel {
+        grid-template-columns: 110px 1fr;
+      }
+
+      .continue-panel .button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .board-library {
+        grid-template-columns: 1fr;
+      }
+
+      .board-cover {
+        min-height: 260px;
+      }
+
+      .continue-panel {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .continue-cover {
+        width: 130px;
+        margin: 0 auto;
+      }
+    }
+
+
+
     @media (max-width: 900px) {
       .steps { grid-template-columns: repeat(2, 1fr); }
       .featured { grid-template-columns: 1fr; }
@@ -547,137 +932,196 @@
 
     <main>
       <section class="hero">
-        <div class="eyebrow">A DataSec Labs Interactive Series</div>
-        <h1>Career Roadmap Bingo</h1>
+        <div class="eyebrow">A DataSec Labs Interactive Collection</div>
+        <h1>DataSec Bingo Collection</h1>
         <p class="hero-lead">
-          Learn cybersecurity one square at a time. This growing series turns a complicated career path
-          into practical, manageable steps you can explore, complete, and return to as your skills grow.
-          Every interactive Bingo Board is paired with a FREE companion Quick Guide that explains each milestone,
-          recommends trusted learning resources, and helps you keep moving forward.
+          Browse interactive Bingo Boards for cybersecurity foundations, career paths, portfolio building,
+          projects, study planning, and more. Choose the board that matches what you are working on,
+          complete the squares in any order, and return anytime to continue your progress.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="foundations/">Start with Foundations</a>
-          <a class="button button-secondary" href="#roadmap">Explore the series</a>
+          <a class="button button-primary" href="#collection">Browse the collection</a>
+          <a class="button button-secondary" href="foundations/">Start with Foundations</a>
         </div>
       </section>
 
       <section class="section">
         <div class="section-heading">
           <h2>How it works</h2>
-          <p>Choose a board, complete meaningful activities, and build momentum without trying to learn everything at once.</p>
+          <p>Choose a board that matches your current goal, complete meaningful activities, and build momentum one square at a time.</p>
         </div>
 
         <div class="steps">
           <article class="step">
             <div class="step-number">1</div>
             <h3>Choose a board</h3>
-            <p>Start with the volume that matches your current stage or area of interest.</p>
+            <p>Pick a numbered roadmap volume or a focused Bonus Board that matches your current goal.</p>
           </article>
 
           <article class="step">
             <div class="step-number">2</div>
             <h3>Complete the squares</h3>
-            <p>Each square represents a learning activity, project, concept, or milestone.</p>
+            <p>Each square represents a concept, activity, project, habit, or milestone.</p>
           </article>
 
           <article class="step">
             <div class="step-number">3</div>
-            <h3>Get the FREE Quick Guide</h3>
-            <p>Use the companion guide for detailed explanations, recommended free resources, and suggested next steps for every square.</p>
+            <h3>Use the resources</h3>
+            <p>Some boards include Quick Guides, printable resources, articles, templates, or additional support.</p>
           </article>
 
           <article class="step">
             <div class="step-number">4</div>
-            <h3>Keep growing</h3>
-            <p>Move into the next volume when you are ready to deepen your skills.</p>
+            <h3>Keep building</h3>
+            <p>Return to track your progress, try another board, or continue with your next goal.</p>
           </article>
         </div>
       </section>
 
-      <section class="section">
+      <section class="collection-section" aria-labelledby="continue-heading">
+        <div id="continuePanel" class="continue-panel" aria-live="polite">
+          <div id="continueCover" class="continue-cover">
+            <div>
+              <strong id="continueCoverTitle">Foundations</strong>
+              <small id="continueCoverBadge">Volume 01</small>
+            </div>
+          </div>
+          <div>
+            <div class="featured-label">Continue your journey</div>
+            <h2 id="continue-heading" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;line-height:1;margin:8px 0 10px;">Pick up where you left off</h2>
+            <p id="continueDescription" style="margin:0;">Your most recently active board will appear here.</p>
+            <div class="progress-wrap">
+              <div class="progress-track" aria-hidden="true">
+                <div id="continueProgressBar" class="progress-bar"></div>
+              </div>
+              <div id="continueProgressText" class="progress-text">0 of 25 complete</div>
+            </div>
+          </div>
+          <a id="continueLink" class="button button-primary" href="foundations/">Resume board</a>
+        </div>
+      </section>
+
+      <section class="section" id="collection">
         <div class="section-heading">
-          <h2>📚 Every board includes a companion Quick Guide</h2>
-          <p>The Career Roadmap Bingo boards are intentionally designed to be simple, visual roadmaps.</p>
+          <h2>Browse the collection</h2>
+          <p>Choose a board that fits what you are learning, building, or preparing for right now. Select any cover to open the interactive board.</p>
         </div>
 
-        <div class="featured">
-          <div>
-            <div class="featured-label">Designed to work together</div>
-            <h3>Your roadmap and your travel guide</h3>
-            <p>
-              Rather than filling each square with paragraphs of text, every board has a companion
-              <strong>Quick Guide</strong> that explains each milestone in more detail.
-            </p>
-            <div class="resource-grid" style="grid-template-columns:1fr;gap:12px;margin:22px 0;">
-              <div class="resource-card"><strong>✅ What every square means</strong>Clear explanations written for beginners and career changers.</div>
-              <div class="resource-card"><strong>📚 Recommended free learning resources</strong>Trusted places to begin without guessing what to search for.</div>
-              <div class="resource-card"><strong>💡 Why each milestone matters</strong>Context that connects each square to real cybersecurity learning.</div>
-              <div class="resource-card"><strong>📝 Suggested next steps</strong>Practical actions that help you keep building momentum.</div>
+        <div class="board-library">
+          <article class="library-card" id="card-foundations">
+            <a class="board-cover-link" href="foundations/" aria-label="Open Foundations Bingo">
+              <div class="board-cover foundations">
+                <div class="cover-brand">DataSec Chronicles</div>
+                <div class="cover-badge">Vol. 01</div>
+                <div>
+                  <div class="cover-title">Foundations</div>
+                  <div class="cover-subtitle">Career Roadmap Bingo</div>
+                </div>
+              </div>
+            </a>
+            <div class="library-copy">
+              <div class="library-meta">Volume 01 · Available now</div>
+              <h3>Foundations</h3>
+              <p>
+                Build a strong cybersecurity base through 24 beginner-friendly milestones and one free space,
+                covering core concepts, networking, Linux, SQL, Python, hands-on practice, community, and certification.
+              </p>
+              <div class="completion-badge" id="completed-foundations">✓ Completed</div>
+              <div class="card-progress" id="progress-foundations" aria-live="polite">
+                <div class="card-progress-row">
+                  <span>Your progress</span>
+                  <span id="progress-text-foundations">0 of 25</span>
+                </div>
+                <div class="card-progress-track" aria-hidden="true">
+                  <div class="card-progress-bar" id="progress-bar-foundations"></div>
+                </div>
+              </div>
+              <div class="library-actions">
+                <a class="button button-primary" href="foundations/">Open board</a>
+                <a class="button button-secondary" href="https://www.datasecchronicles.com/share-the-journey">Get the Quick Guide</a>
+              </div>
             </div>
-            <p><strong>Think of the Bingo Board as your roadmap and the Quick Guide as your travel guide—they're designed to work together.</strong></p>
-          </div>
+          </article>
 
-          <div class="journey-card" style="background:linear-gradient(145deg,rgba(215,240,238,.95),rgba(255,255,255,.96));">
-            <div class="featured-label">FREE companion resource</div>
-            <h3 style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;line-height:1.05;margin-top:10px;">📬 Get Your Foundations Quick Guide</h3>
-            <p>The guide is available through the dedicated sign-up form on the <strong>Share the Journey</strong> page at DataSec Chronicles.</p>
-            <p>By subscribing, you'll also receive occasional updates when I publish new articles, learning resources, interactive tools, future Bingo Boards, and free downloads. You can unsubscribe at any time.</p>
-            <p><strong>🔒 Your information is never sold or shared and is handled in accordance with the DataSec Chronicles Privacy Policy.</strong></p>
-            <a class="button button-primary" href="https://www.datasecchronicles.com/share-the-journey">Get the FREE Quick Guide →</a>
+          <article class="library-card github" id="card-github">
+            <a class="board-cover-link" href="github-portfolio/" aria-label="Open GitHub Portfolio Bonus Bingo">
+              <div class="board-cover github">
+                <div class="cover-brand">DataSec Chronicles</div>
+                <div class="cover-badge">Bonus</div>
+                <div>
+                  <div class="cover-title">GitHub Portfolio</div>
+                  <div class="cover-subtitle">Recruiter-Ready Bingo</div>
+                </div>
+              </div>
+            </a>
+            <div class="library-copy">
+              <div class="library-meta">Bonus Board · Available now</div>
+              <h3>GitHub Portfolio</h3>
+              <p>
+                Build a recruiter-ready portfolio through practical steps for organizing repositories,
+                writing strong READMEs, documenting projects, communicating your process, and sharing your work.
+              </p>
+              <div class="completion-badge" id="completed-github">✓ Completed</div>
+              <div class="card-progress" id="progress-github" aria-live="polite">
+                <div class="card-progress-row">
+                  <span>Your progress</span>
+                  <span id="progress-text-github">0 of 25</span>
+                </div>
+                <div class="card-progress-track" aria-hidden="true">
+                  <div class="card-progress-bar" id="progress-bar-github"></div>
+                </div>
+              </div>
+              <div class="library-actions">
+                <a class="button button-primary" href="github-portfolio/">Open board</a>
+                <a class="button button-secondary" href="https://www.datasecchronicles.com/share-the-journey">Companion resource</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="shelf">
+          <h3>Career Roadmap</h3>
+          <div class="shelf-row" aria-label="Upcoming Career Roadmap boards">
+            <article class="shelf-item"><span>Vol. 02 · Coming soon</span><strong>🛡️ SOC Analyst</strong><p>Alerts, logs, triage, investigations, and day-to-day defensive work.</p></article>
+            <article class="shelf-item"><span>Vol. 03 · Planned</span><strong>🎯 Threat Hunting</strong><p>Look for what alerts missed and test hypotheses with evidence.</p></article>
+            <article class="shelf-item"><span>Vol. 04 · Planned</span><strong>⚙️ Detection Engineering</strong><p>Turn investigations into rules, queries, and repeatable detections.</p></article>
+            <article class="shelf-item"><span>Vol. 05 · Planned</span><strong>☁️ Cloud Security</strong><p>Explore identities, services, configurations, and cloud risk.</p></article>
+            <article class="shelf-item"><span>Vol. 06 · Planned</span><strong>🚨 Incident Response</strong><p>Contain, investigate, recover, and communicate after incidents.</p></article>
+            <article class="shelf-item"><span>Vol. 07 · Planned</span><strong>🦠 Malware Analysis</strong><p>Study malicious behavior and analyst workflows safely.</p></article>
           </div>
+        </div>
+
+        <div class="shelf">
+          <h3>Bonus Boards</h3>
+          <div class="shelf-row" aria-label="Bonus Bingo boards">
+            <article class="shelf-item"><span>Available</span><strong>🌿 GitHub Portfolio</strong><p>Organize, document, present, and share your work.</p></article>
+            <article class="shelf-item"><span>Future idea</span><strong>💬 Interview Preparation</strong><p>Practice stories, technical explanations, and confidence-building steps.</p></article>
+            <article class="shelf-item"><span>Future idea</span><strong>🗓️ Study Planning</strong><p>Turn a large learning goal into a realistic, visible plan.</p></article>
+            <article class="shelf-item"><span>Future idea</span><strong>📝 Project Documentation</strong><p>Make your work easier for others to understand and evaluate.</p></article>
+          </div>
+        </div>
+
+        <div class="library-note">
+          <strong>Bonus Boards are stand-alone resources.</strong>
+          Use them whenever they support what you are building, learning, or preparing for—they do not interrupt the numbered Career Roadmap sequence.
         </div>
       </section>
 
       <section class="section">
         <div class="section-heading">
-          <h2>Start here</h2>
-          <p>The first board is the universal on-ramp into the series.</p>
+          <h2>Resources that help you go further</h2>
+          <p>Depending on the topic, a board may include a Quick Guide, printable checklist, article, template, workbook, or curated learning resources.</p>
         </div>
 
-        <div class="featured">
-          <div>
-            <div class="featured-label">Volume 01 · Available now</div>
-            <h3>🧭 Foundations</h3>
-            <p>
-              Work through 24 beginner-friendly milestones and one free space—from the CIA Triad, networking,
-              Linux, SQL, and Python to TryHackMe, GitHub, incident reports, and your first certification.
-              This board is designed for beginners and career changers who need a clear place to begin.
-            </p>
-            <p><strong>Need help understanding the squares?</strong> The FREE Foundations Quick Guide explains every milestone and recommends free resources to help you get started.</p>
-            <div class="hero-actions" style="margin-top:20px;">
-              <a class="button button-primary" href="foundations/">Open the Foundations board</a>
-              <a class="button button-secondary" href="https://www.datasecchronicles.com/share-the-journey">📖 Get the FREE Quick Guide</a>
-            </div>
-            <p style="margin-top:14px;font-size:.88rem;color:#66707b;">Preview shown from the actual Volume 1 board.</p>
-          </div>
+        <div class="resource-grid">
+          <div class="resource-card"><strong>Clear explanations</strong>Understand what each square means and why it matters.</div>
+          <div class="resource-card"><strong>Trusted resources</strong>Find useful places to learn, practice, and explore.</div>
+          <div class="resource-card"><strong>Practical next steps</strong>Turn each milestone into something you can do.</div>
+          <div class="resource-card"><strong>Downloadable support</strong>Access guides, checklists, templates, and other resources when available.</div>
+        </div>
 
-          <div class="board-preview" aria-label="Preview of the Foundations 5 by 5 bingo board">
-            <span><b>🛡️</b><small>Learn what cybersecurity is</small></span>
-            <span><b>🧭</b><small>Explore cyber career paths</small></span>
-            <span><b>🔺</b><small>Learn the CIA Triad</small></span>
-            <span><b>🐞</b><small>Understand common cyber threats</small></span>
-            <span><b>🌐</b><small>Learn how the internet works</small></span>
-            <span><b>⚔️</b><small>Try a beginner CTF challenge</small></span>
-            <span><b>⌨️</b><small>Learn basic command line</small></span>
-            <span><b>🔐</b><small>Learn password & account security</small></span>
-            <span><b>🗒️</b><small>Set up a notes system</small></span>
-            <span><b>👥</b><small>Join a cyber community</small></span>
-            <span><b>🖧</b><small>Learn basic networking (ports, IP)</small></span>
-            <span><b>🔎</b><small>Read about a known vulnerability (CVE)</small></span>
-            <span><b>⭐</b><small>FREE SPACE – Keep Learning</small></span>
-            <span><b>📄</b><small>Learn what system logs are</small></span>
-            <span><b>🗄️</b><small>Learn basic SQL</small></span>
-            <span><b>🐍</b><small>Try a beginner Python exercise</small></span>
-            <span><b>🧊</b><small>Install VirtualBox or VMware</small></span>
-            <span><b>🐧</b><small>Learn Linux basics</small></span>
-            <span><b>💻</b><small>Write your first SQL query</small></span>
-            <span><b>⚖️</b><small>Learn ethical hacking vs. illegal (scope)</small></span>
-            <span><b>☁️</b><small>Complete your first TryHackMe room</small></span>
-            <span><b>📋</b><small>Read a real incident report</small></span>
-            <span><b>🐙</b><small>Start a GitHub portfolio</small></span>
-            <span><b>⬆️</b><small>Share something you learned #BuildInPublic</small></span>
-            <span><b>🏅</b><small>Earn your first certification</small></span>
-          </div>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://www.datasecchronicles.com/share-the-journey">Explore companion resources</a>
         </div>
       </section>
 
@@ -685,95 +1129,39 @@
         <div class="section-heading">
           <h2>The road ahead</h2>
           <p>
-            Foundations is where everyone starts. From there, the path branches into focused volumes that explore
-            the work, thinking, and skills behind different areas of cybersecurity.
+            The numbered Career Roadmap builds through cybersecurity roles and specialties.
+            Bonus Boards stay flexible and can be used whenever they support your next goal.
           </p>
         </div>
 
         <div class="roadmap">
           <article class="milestone">
             <div class="volume-number">01</div>
-            <div>
-              <h3>🧭 Foundations</h3>
-              <p>The universal on-ramp: core concepts, first hands-on steps, and beginner confidence.</p>
-            </div>
+            <div><h3>🧭 Foundations</h3><p>The universal on-ramp: core concepts, first hands-on steps, and beginner confidence.</p></div>
             <span class="status available">Available</span>
           </article>
-
           <article class="milestone">
             <div class="volume-number">02</div>
-            <div>
-              <h3>🛡️ SOC Analyst</h3>
-              <p>Reading alerts, triaging events, working with logs, and defending a network day to day.</p>
-            </div>
+            <div><h3>🛡️ SOC Analyst</h3><p>Reading alerts, triaging events, working with logs, and defending a network day to day.</p></div>
             <span class="status soon">Coming soon</span>
           </article>
-
-          <article class="milestone">
-            <div class="volume-number">03</div>
-            <div>
-              <h3>🎯 Threat Hunting</h3>
-              <p>Looking for what alerts missed and proving what does—or does not—belong.</p>
-            </div>
-            <span class="status soon">Coming soon</span>
-          </article>
-
-          <article class="milestone">
-            <div class="volume-number">04</div>
-            <div>
-              <h3>⚙️ Detection Engineering</h3>
-              <p>Turning investigations into queries, rules, and repeatable detection systems.</p>
-            </div>
-            <span class="status soon">Coming soon</span>
-          </article>
-
-          <article class="milestone">
-            <div class="volume-number">05</div>
-            <div>
-              <h3>☁️ Cloud Security</h3>
-              <p>Understanding identities, services, configurations, and risks in cloud environments.</p>
-            </div>
-            <span class="status soon">Coming soon</span>
-          </article>
-
-          <article class="milestone">
-            <div class="volume-number">06</div>
-            <div>
-              <h3>🚨 Incident Response</h3>
-              <p>Containing incidents, understanding what happened, and communicating the story afterward.</p>
-            </div>
-            <span class="status soon">Coming soon</span>
-          </article>
-
-          <article class="milestone">
-            <div class="volume-number">07</div>
-            <div>
-              <h3>🦠 Malware Analysis</h3>
-              <p>Exploring how malicious software behaves and how analysts take threats apart safely.</p>
-            </div>
-            <span class="status soon">Coming soon</span>
-          </article>
-
           <article class="milestone">
             <div class="volume-number">+</div>
-            <div>
-              <h3>Bonus Boards</h3>
-              <p>Companion boards for topics such as portfolio building, interview preparation, and study planning.</p>
-            </div>
-            <span class="status soon">More to come</span>
+            <div><h3>🌿 GitHub Portfolio Bonus</h3><p>A stand-alone board for organizing, documenting, presenting, and sharing your work.</p></div>
+            <span class="status available">Available</span>
           </article>
         </div>
       </section>
 
       <section class="section">
         <div class="purpose">
-          <h2>Why I created this series</h2>
+          <h2>Why I created this collection</h2>
           <p>
-            I created Career Roadmap Bingo as the kind of resource I wished I had when I began exploring cybersecurity.
-            Career transitions can feel overwhelming when every roadmap presents a long list of tools, certifications,
-            and job titles. These boards break the journey into smaller actions so learners can build confidence,
-            recognize their progress, and keep moving forward. This is not a fixed curriculum—it is a living map that
-            will continue to grow and change as I learn, build, and climb it myself.
+            I created the DataSec Bingo Collection as the kind of resource I wished I had when I began exploring cybersecurity and building my own career transition.
+            Learning, projects, and career transitions can feel overwhelming when every roadmap presents a long list of tools,
+            certifications, tasks, and job titles. These boards break big goals into smaller actions so learners can build confidence,
+            recognize their progress, and keep moving forward. This is not a fixed curriculum—it is a growing collection that
+            will continue to evolve as I learn, build, and climb it myself.
           </p>
         </div>
       </section>
@@ -791,7 +1179,7 @@
           </div>
           <div class="resource-card">
             <strong>Companion resources</strong>
-            Every Bingo Board is supported by companion resources available through DataSec Chronicles, including Quick Guides, printable checklists, blog articles, free downloads, and future workbooks.
+            Depending on the topic, a Bingo Board may be supported by Quick Guides, printable checklists, blog articles, templates, free downloads, or future workbooks.
           </div>
         </div>
       </section>
@@ -799,7 +1187,7 @@
       <section class="section">
         <div class="section-heading">
           <h2>🌟 Share Your Journey</h2>
-          <p>Career Roadmap Bingo is a community project. Whether you've completed a board, learned something new, earned a certification, or have an idea for a future volume, I'd love to hear about it.</p>
+          <p>The DataSec Bingo Collection is a community project. Whether you've completed a board, built something new, reached a learning milestone, or have an idea for a future board, I'd love to hear about it.</p>
         </div>
 
         <div class="journey-grid">
@@ -807,17 +1195,18 @@
             <h3>🎉 Celebrate Your Progress</h3>
             <p>Share a milestone you're proud of.</p>
             <ul>
-              <li>Completed a Bingo board</li>
-              <li>Finished a lab or project</li>
-              <li>Earned a certification</li>
-              <li>Started a cybersecurity role</li>
+              <li>Completed a Bingo Board</li>
+              <li>Built or improved a project</li>
+              <li>Reached a learning milestone</li>
+              <li>Strengthened your portfolio</li>
+              <li>Earned a certification or started a new role</li>
             </ul>
             <a class="button button-primary" href="https://www.datasecchronicles.com/share-the-journey" onclick="window.location.assign('https://www.datasecchronicles.com/share-the-journey'); return false;">Celebrate Your Progress →</a>
           </div>
 
           <div class="journey-card">
             <h3>💬 Share Your Experience</h3>
-            <p>Help shape future Career Roadmap Bingo volumes.</p>
+            <p>Help shape future numbered volumes and Bonus Boards.</p>
             <ul>
               <li>What was your favorite square?</li>
               <li>What challenged you?</li>
@@ -843,5 +1232,180 @@
       </p>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      const BOARD_CONFIG = [
+        {
+          id: "foundations",
+          title: "Foundations",
+          type: "roadmap",
+          badge: "Volume 01",
+          href: "foundations/",
+          description: "Continue building your cybersecurity foundation.",
+          coverClass: "",
+          storageKeys: [
+            "datasec-foundations-bingo",
+            "datasec-foundations-bingo-v1"
+          ],
+          totalSquares: 25
+        },
+        {
+          id: "github",
+          title: "GitHub Portfolio",
+          type: "bonus",
+          badge: "Bonus Board",
+          href: "github-portfolio/",
+          description: "Continue building a recruiter-ready portfolio.",
+          coverClass: "github",
+          storageKeys: [
+            "datasec-github-portfolio-bingo",
+            "datasec-github-portfolio-bingo-v1"
+          ],
+          totalSquares: 25
+        }
+      ];
+
+      function parseStoredValue(value) {
+        if (!value) return { completed: 0, updatedAt: 0 };
+
+        try {
+          const parsed = JSON.parse(value);
+
+          if (Array.isArray(parsed)) {
+            const completed = parsed.every(item => typeof item === "boolean")
+              ? parsed.filter(Boolean).length
+              : parsed.length;
+
+            return { completed, updatedAt: 0 };
+          }
+
+          if (parsed && typeof parsed === "object") {
+            let completed = 0;
+
+            if (Array.isArray(parsed.completed)) {
+              completed = parsed.completed.length;
+            } else if (Array.isArray(parsed.squares)) {
+              completed = parsed.squares.filter(item =>
+                item === true || (item && item.completed === true)
+              ).length;
+            } else if (typeof parsed.completedCount === "number") {
+              completed = parsed.completedCount;
+            }
+
+            return {
+              completed,
+              updatedAt: Number(parsed.updatedAt) || 0
+            };
+          }
+
+          if (typeof parsed === "number") {
+            return { completed: parsed, updatedAt: 0 };
+          }
+        } catch (error) {
+          const matches = value.match(/true/gi);
+          return { completed: matches ? matches.length : 0, updatedAt: 0 };
+        }
+
+        return { completed: 0, updatedAt: 0 };
+      }
+
+      function readBoardProgress(board) {
+        let completed = 0;
+        let latest = 0;
+        let found = false;
+
+        board.storageKeys.forEach(key => {
+          const value = localStorage.getItem(key);
+
+          if (value !== null) {
+            found = true;
+            const parsed = parseStoredValue(value);
+            completed = Math.max(completed, parsed.completed);
+            latest = Math.max(latest, parsed.updatedAt);
+          }
+
+          latest = Math.max(
+            latest,
+            Number(localStorage.getItem(key + ":updated")) || 0
+          );
+        });
+
+        return {
+          ...board,
+          completed: Math.min(completed, board.totalSquares),
+          found,
+          latest
+        };
+      }
+
+      function renderCardProgress(board) {
+        if (!board.found && board.completed === 0) return;
+
+        const progress = document.getElementById(`progress-${board.id}`);
+        const progressText = document.getElementById(`progress-text-${board.id}`);
+        const progressBar = document.getElementById(`progress-bar-${board.id}`);
+        const completedBadge = document.getElementById(`completed-${board.id}`);
+
+        if (board.completed >= board.totalSquares) {
+          completedBadge?.classList.add("is-visible");
+          progress?.classList.remove("is-visible");
+          return;
+        }
+
+        if (board.completed > 0) {
+          progress?.classList.add("is-visible");
+
+          if (progressText) {
+            progressText.textContent = `${board.completed} of ${board.totalSquares}`;
+          }
+
+          if (progressBar) {
+            progressBar.style.width =
+              `${Math.round((board.completed / board.totalSquares) * 100)}%`;
+          }
+        }
+      }
+
+      const progressData = BOARD_CONFIG.map(readBoardProgress);
+      progressData.forEach(renderCardProgress);
+
+      const activeBoards = progressData
+        .filter(board =>
+          board.completed > 0 &&
+          board.completed < board.totalSquares
+        )
+        .sort((a, b) => {
+          if (b.latest !== a.latest) return b.latest - a.latest;
+          return b.completed - a.completed;
+        });
+
+      // Only the most recently active incomplete board appears here.
+      if (!activeBoards.length) return;
+
+      const active = activeBoards[0];
+
+      const panel = document.getElementById("continuePanel");
+      const cover = document.getElementById("continueCover");
+      const title = document.getElementById("continueCoverTitle");
+      const badge = document.getElementById("continueCoverBadge");
+      const description = document.getElementById("continueDescription");
+      const progressBar = document.getElementById("continueProgressBar");
+      const progressText = document.getElementById("continueProgressText");
+      const link = document.getElementById("continueLink");
+
+      cover.className = `continue-cover ${active.coverClass}`;
+      title.textContent = active.title;
+      badge.textContent = active.badge;
+      description.textContent = active.description;
+      progressBar.style.width =
+        `${Math.round((active.completed / active.totalSquares) * 100)}%`;
+      progressText.textContent =
+        `${active.completed} of ${active.totalSquares} complete`;
+      link.href = active.href;
+      panel.classList.add("is-visible");
+    })();
+  </script>
+
 </body>
 </html>
