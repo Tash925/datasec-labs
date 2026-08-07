@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DataSec Arena by DataSec Labs — interactive cybersecurity crosswords, quizzes, puzzles, and practice experiences." />
+  <title>DataSec Arena | DataSec Labs</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --card: #F1F2F4;
+      --heading: #2E3138;
+      --body: #4A4F58;
+      --lavender: #8C74D9;
+      --lavender-soft: #CDBEF6;
+      --teal: #2E8C8A;
+      --teal-soft: #D7F0EE;
+      --border: #E4E6EA;
+      --white: #FFFFFF;
+      --shadow: 0 20px 50px rgba(46, 49, 56, 0.09);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: var(--body);
+      background:
+        radial-gradient(circle at 12% 6%, rgba(205, 190, 246, 0.5), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(215, 240, 238, 0.75), transparent 32%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--heading);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--lavender), var(--teal));
+      color: white;
+      box-shadow: 0 10px 24px rgba(140, 116, 217, 0.28);
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--teal);
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: var(--teal-soft);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 82px 64px;
+      margin-top: 12px;
+      border: 1px solid rgba(228, 230, 234, 0.95);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(4px);
+    }
+
+    .hero::before {
+      width: 340px;
+      height: 340px;
+      right: -120px;
+      top: -120px;
+      background: rgba(205, 190, 246, 0.52);
+    }
+
+    .hero::after {
+      width: 280px;
+      height: 280px;
+      left: -100px;
+      bottom: -140px;
+      background: rgba(215, 240, 238, 0.88);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 { color: var(--heading); margin-top: 0; }
+
+    h1 {
+      max-width: 840px;
+      margin-bottom: 18px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(3.6rem, 8vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-lead {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--heading);
+      color: white;
+      box-shadow: 0 12px 26px rgba(46,49,56,0.18);
+    }
+
+    .button-secondary {
+      color: var(--heading);
+      border-color: var(--border);
+      background: rgba(255,255,255,0.75);
+    }
+
+    .button:hover { transform: translateY(-2px); }
+
+    .section { padding: 86px 0 0; }
+
+    .section-heading {
+      max-width: 780px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(237,232,252,0.9));
+      box-shadow: var(--shadow);
+    }
+
+    .intro-copy h3 {
+      margin: 8px 0 14px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+      line-height: 1;
+    }
+
+    .intro-list {
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .intro-list li {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    .launch-card {
+      padding: 30px;
+      border-radius: 24px;
+      background: linear-gradient(150deg, var(--teal), #2f6fce 58%, var(--lavender));
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .launch-card::before {
+      content: "";
+      position: absolute;
+      inset: -50px auto auto -50px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.14);
+    }
+
+    .launch-card .status {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.65);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .launch-card h3,
+    .launch-card p {
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    .launch-card h3 {
+      margin: 26px 0 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      line-height: .95;
+    }
+
+    .launch-date {
+      display: block;
+      margin-top: 18px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .activity-card {
+      min-height: 210px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 12px 26px rgba(46,49,56,0.05);
+    }
+
+    .activity-card span {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--card);
+      color: #6f7580;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .activity-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+
+    .activity-card p { margin: 0; }
+
+    .purpose {
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--heading), #414753);
+      color: rgba(255,255,255,0.82);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .purpose::after {
+      content: "🏟️";
+      position: absolute;
+      right: 24px;
+      bottom: -24px;
+      font-size: 8rem;
+      opacity: .06;
+    }
+
+    .purpose h2 {
+      color: white;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      margin-bottom: 14px;
+    }
+
+    .purpose p {
+      max-width: 840px;
+      margin: 0;
+      font-size: 1.06rem;
+    }
+
+    .levels {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .level-card {
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.82);
+    }
+
+    .level-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--heading);
+      font-size: 1.15rem;
+    }
+
+    .level-card:first-child {
+      background: linear-gradient(145deg, rgba(215,240,238,.95), rgba(255,255,255,.95));
+    }
+
+    footer {
+      padding: 72px 0 36px;
+      text-align: center;
+      color: #70757f;
+    }
+
+    footer a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .intro-card {
+        grid-template-columns: 1fr;
+      }
+
+      .activity-grid,
+      .levels {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 58px 26px;
+      }
+
+      .activity-grid,
+      .levels {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">DS</span>
+        <span>DataSec Labs</span>
+      </a>
+      <a class="back-link" href="../">← Back to DataSec Labs</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">A New DataSec Labs Experience</div>
+        <h1>DataSec Arena</h1>
+        <p class="hero-lead">
+          Sharpen your cybersecurity skills through crosswords, quizzes, puzzles,
+          investigations, and other interactive learning experiences designed to
+          help you practice what you learn.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#launch">Preview the First Activity</a>
+          <a class="button button-secondary" href="#future">See What’s Coming</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="intro-card">
+          <div class="intro-copy">
+            <div class="eyebrow">Before You Begin</div>
+            <h3>Practice without pressure.</h3>
+            <p>
+              DataSec Arena is a growing home for interactive cybersecurity practice.
+              Activities are designed to reinforce concepts, make review more engaging,
+              and give learners a safe place to try, think, and improve.
+            </p>
+
+            <ul class="intro-list">
+              <li>✔ Learn through interactive activities</li>
+              <li>✔ Practice at your own pace</li>
+              <li>✔ New experiences added over time</li>
+              <li>✔ Built for beginners and lifelong learners</li>
+            </ul>
+          </div>
+
+          <div class="launch-card" id="launch">
+            <span class="status">Launching Soon</span>
+            <h3>Interactive Cybersecurity Crossword</h3>
+            <p>
+              Reinforce cybersecurity terminology, concepts, and definitions through
+              an interactive crossword experience.
+            </p>
+            <span class="launch-date">Launching August 25, 2026</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="future">
+        <div class="section-heading">
+          <h2>What’s coming to the Arena</h2>
+          <p>
+            The crossword is only the beginning. Future activities will support different
+            ways to review, practice, investigate, and apply cybersecurity concepts.
+          </p>
+        </div>
+
+        <div class="activity-grid">
+          <article class="activity-card">
+            <span>August 25</span>
+            <h3>🧩 Cybersecurity Crossword</h3>
+            <p>Practice terminology and definitions through an interactive puzzle.</p>
+          </article>
+
+          <article class="activity-card">
+            <span>Coming Soon</span>
+            <h3>📝 Knowledge Quizzes</h3>
+            <p>Short knowledge checks and scenario-based review activities.</p>
+          </article>
+
+          <article class="activity-card">
+            <span>Coming Soon</span>
+            <h3>🎯 Matching Activities</h3>
+            <p>Connect concepts, terms, tools, and examples through interactive matching.</p>
+          </article>
+
+          <article class="activity-card">
+            <span>Coming Soon</span>
+            <h3>🔍 Mini Investigations</h3>
+            <p>Work through concise evidence-based security scenarios.</p>
+          </article>
+
+          <article class="activity-card">
+            <span>Coming Soon</span>
+            <h3>🧠 Memory Activities</h3>
+            <p>Build recall for ports, protocols, controls, and key concepts.</p>
+          </article>
+
+          <article class="activity-card">
+            <span>Future Experience</span>
+            <h3>🚩 Advanced Practice</h3>
+            <p>More complex activities for learners ready to move beyond the basics.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="purpose">
+          <h2>Why the Arena exists</h2>
+          <p>
+            Reading introduces a concept. Practice helps it stick. DataSec Arena is designed
+            to complement the DataSec Bingo Collection and other DataSec Labs experiences by
+            giving learners engaging ways to reinforce what they have already explored.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Choose your level</h2>
+          <p>
+            The Arena can grow with the learner. Activities may eventually be organized by
+            level so beginners and more experienced learners can find the right place to practice.
+          </p>
+        </div>
+
+        <div class="levels">
+          <article class="level-card">
+            <strong>🟢 Foundations Arena</strong>
+            Beginner-friendly activities focused on essential cybersecurity concepts.
+          </article>
+
+          <article class="level-card">
+            <strong>🔵 Intermediate Arena</strong>
+            More applied practice involving logs, frameworks, investigations, and analysis.
+          </article>
+
+          <article class="level-card">
+            <strong>🟣 Advanced Arena</strong>
+            Future activities for threat hunting, detection engineering, malware analysis, and more.
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Part of the <strong>DataSec Chronicles</strong> learning ecosystem.<br>
+        <a href="../">← Return to DataSec Labs</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
