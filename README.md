@@ -12,6 +12,7 @@ While DataSec Chronicles focuses on articles, tutorials, and companion guides, D
 
 - 🎲 Career Roadmap Bingo
   - Foundations (Live)
+  - Github Portfolio (Live)
 
 ## Coming Soon
 
