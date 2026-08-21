@@ -305,6 +305,39 @@
       z-index: 1;
     }
 
+
+    .launch-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 22px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: white;
+      color: var(--heading);
+      font-weight: 800;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      transition: 0.2s ease;
+    }
+
+    .launch-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(46,49,56,0.16);
+    }
+
+    .activity-link {
+      display: inline-flex;
+      margin-top: 16px;
+      color: var(--teal);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .activity-link:hover { text-decoration: underline; }
+
     .activity-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -504,6 +537,7 @@
               an interactive crossword experience.
             </p>
             <span class="launch-date">Launching August 25, 2026</span>
+            <a class="launch-link" href="../casefiles/01/">Open the Crossword →</a>
           </div>
         </div>
       </section>
@@ -522,6 +556,7 @@
             <span>August 25</span>
             <h3>🧩 Cybersecurity Crossword</h3>
             <p>Practice terminology and definitions through an interactive puzzle.</p>
+            <a class="activity-link" href="../casefiles/01/">Open the Crossword →</a>
           </article>
 
           <article class="activity-card">
