@@ -35,7 +35,7 @@ window.DATASEC_CASE = {
   // Fixed global reveal instant. 2026-08-31 20:00 America/New_York = 00:00Z (EDT, UTC-4).
   reveal: {
     at: "2026-09-01T00:00:00Z",
-    label: "Verdict unlocks Sun Aug 31, 8:00 PM ET",
+    label: "Verdict unlocks Mon Aug 31, 8:00 PM ET",
     // base64 of the verdict headline; full narrative lives in `verdict` below,
     // gated by the engine until `reveal.at` passes.
     sealedHeadline: "VGhlIFNpbGVudCBJbnRlcmNlcHQg4oCUIHNvbHZlZA=="
