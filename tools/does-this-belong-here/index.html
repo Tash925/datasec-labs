@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Does This Belong Here? — a friendly phishing check</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --off-white:#FAF8F5; --lavender:#8C74D9; --lavender-soft:#ede8f9;
+    --teal:#2E8C8A; --teal-soft:#e0efee; --ink:#221f2b; --ink-soft:#4a4556;
+    --rule:#e4ddd3; --amber:#c8783a; --amber-soft:#f8ebde; --red:#b03a5b;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--off-white);color:var(--ink);
+    font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.6;}
+  .wrap{max-width:680px;margin:0 auto;padding:40px 24px 80px;}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--teal);margin:0 0 10px;}
+  h1{font-size:34px;font-weight:700;margin:0 0 8px;letter-spacing:-0.01em;}
+  h1 .q{color:var(--lavender);}
+  .sub{color:var(--ink-soft);font-size:18px;margin:0 0 28px;}
+  label{display:block;font-weight:600;margin:0 0 8px;font-size:15px;}
+  textarea{width:100%;min-height:180px;padding:14px;border:1.5px solid var(--rule);
+    border-radius:12px;font-family:inherit;font-size:16px;resize:vertical;background:#fff;}
+  textarea:focus{outline:none;border-color:var(--lavender);}
+  .btn{margin-top:16px;background:var(--lavender);color:#fff;border:none;
+    padding:14px 28px;border-radius:10px;font-family:inherit;font-size:17px;font-weight:600;
+    cursor:pointer;}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .hint{font-size:13px;color:var(--ink-soft);margin-top:10px;}
+  .result{margin-top:28px;padding:22px;border-radius:14px;background:var(--lavender-soft);
+    border-left:4px solid var(--lavender);white-space:pre-wrap;font-size:16px;display:none;}
+  .result.show{display:block;}
+  .result h3{margin:0 0 10px;font-family:'Space Mono',monospace;font-size:13px;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--lavender);}
+  .footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--rule);
+    font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .heart{color:var(--lavender);}
+  .setup{background:var(--amber-soft);border-left:4px solid var(--amber);
+    padding:14px 18px;border-radius:10px;font-size:14px;margin:0 0 28px;}
+  .setup code{background:#fff;padding:1px 6px;border-radius:4px;font-family:'Space Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">A friendly phishing check · 31 Days Safer · DataSec Chronicles</p>
+  <h1>Does This <span class="q">Belong Here?</span></h1>
+  <p class="sub">Got an email or text that feels off? Paste it in. I'll walk through it the way a security analyst would — in plain English, no jargon.</p>
+
+  <div class="setup" id="setup">
+    <strong>One-time setup:</strong> paste your free Google AI Studio API key below to turn this on.
+    Get one free at <code>aistudio.google.com/apikey</code>. It stays in your browser — nothing is stored or sent anywhere except Google's Gemma model.
+    <input id="apikey" type="password" placeholder="Paste API key here" style="width:100%;margin-top:10px;padding:10px;border:1.5px solid var(--rule);border-radius:8px;font-family:monospace;">
+  </div>
+
+  <label for="msg">Paste the suspicious email or text:</label>
+  <textarea id="msg" placeholder="e.g. 'URGENT: Your account will be locked in 30 minutes. Click here to verify your password immediately...'"></textarea>
+  <button class="btn" id="go">Check it for me</button>
+  <p class="hint">Tip: include the sender's address and any links if you can — that's often where the tell is.</p>
+
+  <div class="result" id="result">
+    <h3>What I'm seeing</h3>
+    <div id="out"></div>
+  </div>
+
+  <div class="footer">
+    <span>Runs on Gemma (open-weight) · your message never leaves your browser except to the model</span>
+    <span>the tool changes, the question doesn't. <span class="heart">&#9829;</span></span>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are a warm, plain-spoken security helper for people who are NOT technical — think someone's mom or husband who keeps getting spam. A person will paste an email or text. Help them decide if it's a phishing scam.
+
+CRITICAL OUTPUT RULES — follow exactly:
+- Output ONLY the final answer below. Do NOT show any reasoning, planning, notes, role descriptions, self-correction, or drafts. No "let me think," no bullet points about your process. Just the finished answer the person reads.
+- Use simple, friendly language. No jargon. Never shame them for asking.
+- Keep the whole thing short.
+
+Format your answer EXACTLY like this and nothing else:
+
+Verdict: <one short line — "This looks safe," "Be careful — a few red flags," or "This looks like a scam.">
+
+What I noticed:
+• <red flag> — <why it matters, in plain words>
+• <red flag> — <why it matters>
+(2 to 4 bullets, only the ones that actually apply)
+
+What to do: <one clear, calm next step>
+
+Does this belong here?`;
+
+const go = document.getElementById('go');
+const out = document.getElementById('out');
+const result = document.getElementById('result');
+
+go.addEventListener('click', async () => {
+  const key = document.getElementById('apikey').value.trim();
+  const msg = document.getElementById('msg').value.trim();
+  if (!key) { alert('Paste your free API key in the setup box first.'); return; }
+  if (!msg) { alert('Paste the suspicious message first.'); return; }
+
+  go.disabled = true; go.textContent = 'Looking it over...';
+  result.classList.add('show'); out.textContent = 'Thinking like an analyst...';
+
+  try {
+    // 1) Ask Google which models THIS key can use, and pick a Gemma one that supports generateContent.
+    const listRes = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(key) + '&pageSize=200'
+    );
+    const listData = await listRes.json();
+    if (listData?.error) throw new Error(listData.error.message);
+
+    const models = (listData.models || []).filter(m =>
+      (m.supportedGenerationMethods || []).includes('generateContent')
+    );
+    // Prefer Gemma (open-weight) models; fall back to any available model.
+    const gemmas = models.filter(m => /gemma/i.test(m.name));
+    const pick = (gemmas[0] || models[0]);
+    if (!pick) throw new Error('No usable models found for this key.');
+    const modelName = pick.name.replace(/^models\//, '');
+
+    // 2) Call it.
+    const res = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + encodeURIComponent(key),
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: SYSTEM_PROMPT + '\n\n--- MESSAGE TO CHECK ---\n' + msg }] }]
+        })
+      }
+    );
+    const data = await res.json();
+    if (data?.error) throw new Error(data.error.message);
+    let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // Safety net: some models think out loud. The FINAL answer is always the LAST
+    // 'Verdict:' block, so cut to the last occurrence to skip all the scratch work.
+    const matches = [...text.matchAll(/verdict\s*:/gi)];
+    if (matches.length) text = text.slice(matches[matches.length - 1].index);
+    // Also strip any stray markdown asterisks/bullets the model adds.
+    text = text.replace(/^[\s>*#-]+/gm, m => m.replace(/[*#>]/g,'')).trim();
+    out.textContent = text || 'Hmm, I could not read a response from the model.';
+  } catch (e) {
+    out.textContent = 'Something went wrong: ' + e.message;
+  } finally {
+    go.disabled = false; go.textContent = 'Check it for me';
+  }
+});
+</script>
+</body>
+</html>
