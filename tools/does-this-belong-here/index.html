@@ -34,9 +34,24 @@
   .result.show{display:block;}
   .result h3{margin:0 0 10px;font-family:'Space Mono',monospace;font-size:13px;
     letter-spacing:0.08em;text-transform:uppercase;color:var(--lavender);}
-  .footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--rule);
-    font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--rule);
+    color:var(--ink-soft);}
+  .footer-nav{font-family:'Space Mono',monospace;font-size:14px;
+    display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-bottom:18px;}
+  .footer-label{flex:1 1 100%;font-family:'Space Grotesk',system-ui,sans-serif;
+    font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+  .footer a{color:var(--teal);text-decoration:none;}
+  .footer a:hover{color:var(--lavender);text-decoration:underline;}
+  .feedback-card{background:var(--lavender-soft);border-left:4px solid var(--lavender);
+    border-radius:10px;padding:14px 16px;margin:0 0 20px;}
+  .feedback-card strong{display:block;font-family:'Space Grotesk',system-ui,sans-serif;
+    font-size:15px;color:var(--ink);margin-bottom:3px;}
+  .feedback-card a{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;
+    color:var(--lavender);}
+  .footer-note{font-family:'Space Mono',monospace;font-size:12px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 18px;}
+  .brand-link{color:var(--teal);text-decoration:none;}
+  .brand-link:hover{color:var(--lavender);text-decoration:underline;}
   .heart{color:var(--lavender);}
   .setup{background:var(--amber-soft);border-left:4px solid var(--amber);
     padding:14px 18px;border-radius:10px;font-size:14px;margin:0 0 28px;}
@@ -45,7 +60,7 @@
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">A friendly phishing check · 31 Days Safer · DataSec Chronicles</p>
+  <p class="eyebrow"><a href="https://labs.datasecchronicles.com/" class="brand-link">DataSec Labs</a> · Security Tools</p>
   <h1>Does This <span class="q">Belong Here?</span></h1>
   <p class="sub">Got an email or text that feels off? Paste it in. I'll walk through it the way a security analyst would — in plain English, no jargon.</p>
 
@@ -66,8 +81,22 @@
   </div>
 
   <div class="footer">
-    <span>Runs on Gemma (open-weight) · your message never leaves your browser except to the model</span>
-    <span>the tool changes, the question doesn't. <span class="heart">&#9829;</span></span>
+    <div class="footer-nav">
+      <div class="footer-label">Explore DataSec</div>
+      <a href="https://labs.datasecchronicles.com/">← DataSec Labs</a>
+      <a href="https://www.datasecchronicles.com/">DataSec Chronicles</a>
+      <a href="https://github.com/Tash925/does-this-belong-here">See the code ↗</a>
+    </div>
+
+    <div class="feedback-card">
+      <strong>Have thoughts about the tool?</strong>
+      <a href="https://www.datasecchronicles.com/share-the-journey">Share the journey →</a>
+    </div>
+
+    <div class="footer-note">
+      <span>Runs on Gemma (open-weight) · your message never leaves your browser except to the model</span>
+      <span>the tool changes, the question doesn't. <span class="heart">&#9829;</span></span>
+    </div>
   </div>
 </div>
 
